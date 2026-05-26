@@ -216,11 +216,11 @@ footer a:hover{color:var(--accent);}
     <a onclick="showPage('goals',this)">Goals</a>
   </div>
   <div class="nav-right">
-    <div class="admin-indicator">
+    <div class="admin-indicator" id="admin-indicator" style="display:none">
       <div class="admin-dot" id="admin-dot"></div>
       <span id="admin-label" style="display:none">Admin</span>
     </div>
-    <button class="btn btn-ghost btn-sm" onclick="openAdminLogin()">⚙️ Admin</button>
+    <button class="btn btn-ghost btn-sm" id="admin-btn" onclick="openAdminLogin()" style="display:none">⚙️ Admin</button>
     <button class="nav-mobile-btn" onclick="toggleMobileNav()">☰</button>
   </div>
 </nav>
@@ -238,6 +238,7 @@ footer a:hover{color:var(--accent);}
     <div class="stream-cta">
       <a href="#" id="btn-spotify" target="_blank" class="stream-btn">🎵 Spotify</a>
       <a href="#" id="btn-youtube" target="_blank" class="stream-btn">▶ YouTube</a>
+      <a href="#" id="btn-applemusic" target="_blank" class="stream-btn">🎶 Apple Music</a>
       <a href="https://weverse.io/evan/highlight" id="btn-weverse" target="_blank" class="stream-btn">💬 Weverse</a>
       <a href="https://www.instagram.com/h_evva_n" id="btn-instagram" target="_blank" class="stream-btn">📸 Instagram</a>
     </div>
@@ -430,6 +431,7 @@ footer a:hover{color:var(--accent);}
         <h3>Links sociales</h3>
         <div class="form-group"><label>🎵 Spotify (URL artista)</label><input class="input" id="cfg-spotify_url" placeholder="https://open.spotify.com/artist/..."></div>
         <div class="form-group"><label>▶ YouTube (URL canal)</label><input class="input" id="cfg-youtube_url" placeholder="https://www.youtube.com/@evan"></div>
+        <div class="form-group"><label>🎶 Apple Music</label><input class="input" id="cfg-applemusic_url" placeholder="https://music.apple.com/..."></div>
         <div class="form-group"><label>💬 Weverse</label><input class="input" id="cfg-weverse_url" placeholder="https://weverse.io/evan/highlight"></div>
         <div class="form-group"><label>📸 Instagram</label><input class="input" id="cfg-instagram_url" placeholder="https://instagram.com/..."></div>
         <div class="form-group"><label>🐦 Twitter / X</label><input class="input" id="cfg-twitter_url" placeholder="https://x.com/..."></div>
@@ -564,6 +566,7 @@ async function loadConfig() {
   if (cfg.hero_tag) document.getElementById('hero-tag').textContent = cfg.hero_tag;
   if (cfg.debut_text) document.getElementById('debut-text').textContent = cfg.debut_text;
   if (cfg.spotify_url) { document.getElementById('btn-spotify').href = cfg.spotify_url; document.getElementById('foot-spotify').href = cfg.spotify_url; }
+  if (cfg.applemusic_url) document.getElementById('btn-applemusic').href = cfg.applemusic_url;
   if (cfg.youtube_url) document.getElementById('btn-youtube').href = cfg.youtube_url;
   if (cfg.weverse_url) { document.getElementById('btn-weverse').href = cfg.weverse_url; document.getElementById('foot-weverse').href = cfg.weverse_url; }
   if (cfg.instagram_url) { document.getElementById('btn-instagram').href = cfg.instagram_url; document.getElementById('foot-instagram').href = cfg.instagram_url; }
@@ -796,7 +799,7 @@ async function deletePlaylist(id) {
 // ADMIN ACTIONS — CONFIG
 // ═══════════════════════════════════════
 async function saveConfig() {
-  const keys = ['hero_tag','debut_text','spotify_url','youtube_url','weverse_url','instagram_url','twitter_url'];
+  const keys = ['hero_tag','debut_text','spotify_url','youtube_url','applemusic_url','weverse_url','instagram_url','twitter_url'];
   const updates = keys.map(k => {
     const el = document.getElementById('cfg-'+k);
     return el ? sb.from('site_config').upsert({key:k, value:el.value.trim()}) : Promise.resolve();
@@ -858,6 +861,29 @@ function switchAdminTab(id, el) {
 // INIT
 // ═══════════════════════════════════════
 loadAll();
+
+// Secuencia secreta para mostrar botón Admin: teclea 'adm'
+let _seq = '';
+document.addEventListener('keydown', e => {
+  _seq = (_seq + e.key.toLowerCase()).slice(-3);
+  if (_seq === 'adm') {
+    document.getElementById('admin-btn').style.display = 'inline-flex';
+    document.getElementById('admin-indicator').style.display = 'flex';
+  }
+});
+
+// También: doble tap en el logo (mobile)
+let _tapCount = 0, _tapTimer;
+document.querySelector('.nav-logo').addEventListener('click', () => {
+  _tapCount++;
+  clearTimeout(_tapTimer);
+  _tapTimer = setTimeout(() => _tapCount = 0, 600);
+  if (_tapCount >= 5) {
+    document.getElementById('admin-btn').style.display = 'inline-flex';
+    document.getElementById('admin-indicator').style.display = 'flex';
+    _tapCount = 0;
+  }
+});
 </script>
 </body>
 </html>
