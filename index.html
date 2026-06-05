@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EVANcharts | Heeseung Solo Era</title>
-<meta name="description" content="Fan streaming tracker para EVAN (Lee Heeseung) - Era SIN:VANISH. Datos en tiempo real desde YouTube API + seguimiento manual de Spotify.">
+<title>EVANcharts | Lee Heeseung Solo Era</title>
+<meta name="description" content="Fan streaming tracker para EVAN (Lee Heeseung) - Solo Era. Datos en tiempo real desde YouTube API + seguimiento manual de Spotify.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,400;14..32,600;14..32,700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1064,12 +1064,12 @@ footer a:hover { color: var(--primary-red); }
 <!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
-    <div class="hero-tag" id="hero-tag">EVAN // LEE HEESEUNG · SIN:VANISH ERA</div>
-    <h1>LEE HEESEUNG<br><span style="font-size: 0.5em; display: block;">SIN:VANISH ERA</span></h1>
+    <div class="hero-tag" id="hero-tag">EVAN // LEE HEESEUNG · SOLO ERA</div>
+    <h1>EVAN CHARTS<br><span style="font-size: 0.5em; display: block;">SOLO ERA</span></h1>
     <p class="hero-sub">Streaming hub | Fan page</p>
     <div class="hero-debut">
       <div class="dot-live"></div>
-      <span id="debut-text">Lee Heeseung · SIN:VANISH Era · Fan Tracker</span>
+      <span id="debut-text">Lee Heeseung · Solo Era · Fan Tracker</span>
     </div>
     <div class="stream-cta">
       <a href="#" id="btn-spotify" target="_blank" class="stream-btn">🎵 Spotify</a>
@@ -1097,7 +1097,7 @@ footer a:hover { color: var(--primary-red); }
     <div class="section-header" style="margin-top:0.5rem"><div class="section-title">Artist Chart</div><div class="section-line"></div></div>
     <div class="artist-chart-wrap">
       <div class="artist-chart-header">
-        <div class="artist-chart-title">Spotify · ENHYPEN</div>
+        <div class="artist-chart-title">Spotify · EVAN</div>
         <div class="kworb-meta">
           <span id="kworb-updated">—</span>
           <button class="kworb-refresh-btn" id="kworb-btn" onclick="loadKworbArtist(true)">
@@ -1140,7 +1140,7 @@ footer a:hover { color: var(--primary-red); }
       <div class="apple-top-bar">
         <div class="apple-logo-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Apple Music · ENHYPEN
+          Apple Music · EVAN
         </div>
         <div class="apple-meta">
           <span id="apple-updated">—</span>
@@ -1181,7 +1181,7 @@ footer a:hover { color: var(--primary-red); }
 <!-- CHARTS -->
 <div id="charts" class="page">
   <section>
-    <div class="section-header"><div class="section-title">Spotify Charts — ENHYPEN</div><div class="section-line"></div></div>
+    <div class="section-header"><div class="section-title">Spotify Charts — EVAN</div><div class="section-line"></div></div>
 
     <!-- Spotify Charts UI -->
     <div class="sp-charts-wrap">
@@ -1445,9 +1445,9 @@ footer a:hover { color: var(--primary-red); }
       </div>
       <div class="admin-card">
         <details>
-          <summary style="cursor:pointer;font-weight:600;color:var(--text-dim);font-size:0.85rem">📥 Precargar discografía completa de ENHYPEN</summary>
+          <summary style="cursor:pointer;font-weight:600;color:var(--text-dim);font-size:0.85rem">📥 Precargar discografía completa de EVAN</summary>
           <div style="margin-top:1rem">
-            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Carga todas las canciones de ENHYPEN con streams en 0. Solo hazlo una vez. Si ya tienes canciones cargadas, se saltarán las duplicadas.</p>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Carga todas las canciones de EVAN con streams en 0. Solo hazlo una vez. Si ya tienes canciones cargadas, se saltarán las duplicadas.</p>
             <button class="btn" onclick="preloadDiscography()">📥 Cargar discografía</button>
             <div id="preload-status" style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-muted)"></div>
           </div>
@@ -1503,7 +1503,7 @@ footer a:hover { color: var(--primary-red); }
         <details>
           <summary style="cursor:pointer;font-weight:600;color:var(--text-dim);font-size:0.85rem">📥 Precargar discografía de álbumes</summary>
           <div style="margin-top:1rem">
-            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Carga todos los álbumes/EPs de ENHYPEN con sus streams actuales.</p>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Carga todos los álbumes/EPs de EVAN con sus streams actuales.</p>
             <button class="btn" onclick="preloadAlbums()">📥 Cargar álbumes</button>
             <div id="preload-albums-status" style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-muted)"></div>
           </div>
@@ -1528,7 +1528,7 @@ footer a:hover { color: var(--primary-red); }
     <div class="admin-section" id="tab-charts">
       <div class="admin-card" style="border-color:rgba(29,185,84,0.25)">
         <h3 style="color:#1db954">📊 Entradas de Spotify Charts</h3>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Agrega posiciones de ENHYPEN en los charts de Spotify. Cada entrada corresponde a una combinación de tipo + región.</p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Agrega posiciones de EVAN en los charts de Spotify. Cada entrada corresponde a una combinación de tipo + región.</p>
         <div id="admin-sp-charts-list"><div class="loading"><div class="spin"></div></div></div>
       </div>
       <div class="admin-card">
@@ -1562,7 +1562,7 @@ footer a:hover { color: var(--primary-red); }
           </div>
         </div>
         <div class="form-group"><label>Canción / Artista</label><input class="input" id="nc-song" placeholder="ej: Knife"></div>
-        <div class="form-group"><label>Artistas (subtítulo)</label><input class="input" id="nc-artist" placeholder="ej: ENHYPEN"></div>
+        <div class="form-group"><label>Artistas (subtítulo)</label><input class="input" id="nc-artist" placeholder="ej: EVAN"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem">
           <div class="form-group"><label>Posición (#)</label><input class="input" id="nc-rank" placeholder="ej: 16" type="number"></div>
           <div class="form-group"><label>Daily / Weekly Streams</label><input class="input" id="nc-daily" placeholder="ej: 2920045 (no aplica para Daily Artists)"></div>
@@ -1596,7 +1596,7 @@ footer a:hover { color: var(--primary-red); }
 
       <div class="admin-card">
         <h3>🎵 Global Top 100 Songs</h3>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Agrega las canciones de ENHYPEN que aparecen en Apple Music Charts.</p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">Agrega las canciones de EVAN que aparecen en Apple Music Charts.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.7rem;margin-bottom:0.8rem">
           <div class="form-group">
             <label>Rank</label>
@@ -1610,7 +1610,7 @@ footer a:hover { color: var(--primary-red); }
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:0.8rem">
           <div class="form-group">
             <label>Artista</label>
-            <input class="input" id="am-artist" placeholder="ej: ENHYPEN">
+            <input class="input" id="am-artist" placeholder="ej: EVAN">
           </div>
           <div class="form-group">
             <label>Charts (países)</label>
@@ -1627,7 +1627,7 @@ footer a:hover { color: var(--primary-red); }
     </div>
 
     <!-- Configuración -->
-    <div class="admin-section" id="tab-config"><div class="admin-card"><h3>Textos del hero</h3><div class="form-group"><label>Tag</label><input class="input" id="cfg-hero_tag" placeholder="EVAN // SIN:VANISH ..."></div><div class="form-group"><label>Texto debut</label><input class="input" id="cfg-debut_text" placeholder="Lee Heeseung · Solo Era"></div><div class="form-group"><label>🖼️ Imagen de fondo del hero (URL)</label><input class="input" id="cfg-hero_bg_url" placeholder="https://...jpg"><p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.4rem">Pega la URL directa de la imagen. Recomendado: 1920x1080px o más. Puedes subir a <a href="https://imgbb.com" target="_blank" style="color:var(--primary-red)">imgbb.com</a> gratis.</p></div><div id="hero-bg-preview" style="display:none;margin-top:0.8rem;border-radius:12px;overflow:hidden;border:1px solid var(--border-dim);max-height:160px"><img id="hero-bg-img-preview" style="width:100%;height:160px;object-fit:cover;object-position:top" src="" alt="preview"></div><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="previewHeroBg()">👁️ Previsualizar</button></div><div class="admin-card"><h3>Links sociales</h3><div class="form-group"><label>🎵 Spotify URL</label><input class="input" id="cfg-spotify_url"></div><div class="form-group"><label>▶ YouTube</label><input class="input" id="cfg-youtube_url"></div><div class="form-group"><label>🎶 Apple Music</label><input class="input" id="cfg-applemusic_url"></div><div class="form-group"><label>💬 Weverse</label><input class="input" id="cfg-weverse_url"></div><div class="form-group"><label>📸 Instagram</label><input class="input" id="cfg-instagram_url"></div><div class="form-group"><label>🐦 Twitter/X</label><input class="input" id="cfg-twitter_url"></div><button class="btn" onclick="saveConfig()">Guardar configuración</button></div></div>
+    <div class="admin-section" id="tab-config"><div class="admin-card"><h3>Textos del hero</h3><div class="form-group"><label>Tag</label><input class="input" id="cfg-hero_tag" placeholder="EVAN // SOLO ERA ..."></div><div class="form-group"><label>Texto debut</label><input class="input" id="cfg-debut_text" placeholder="Lee Heeseung · Solo Era"></div><div class="form-group"><label>🖼️ Imagen de fondo del hero (URL)</label><input class="input" id="cfg-hero_bg_url" placeholder="https://...jpg"><p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.4rem">Pega la URL directa de la imagen. Recomendado: 1920x1080px o más. Puedes subir a <a href="https://imgbb.com" target="_blank" style="color:var(--primary-red)">imgbb.com</a> gratis.</p></div><div id="hero-bg-preview" style="display:none;margin-top:0.8rem;border-radius:12px;overflow:hidden;border:1px solid var(--border-dim);max-height:160px"><img id="hero-bg-img-preview" style="width:100%;height:160px;object-fit:cover;object-position:top" src="" alt="preview"></div><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="previewHeroBg()">👁️ Previsualizar</button></div><div class="admin-card"><h3>Links sociales</h3><div class="form-group"><label>🎵 Spotify URL</label><input class="input" id="cfg-spotify_url"></div><div class="form-group"><label>▶ YouTube</label><input class="input" id="cfg-youtube_url"></div><div class="form-group"><label>🎶 Apple Music</label><input class="input" id="cfg-applemusic_url"></div><div class="form-group"><label>💬 Weverse</label><input class="input" id="cfg-weverse_url"></div><div class="form-group"><label>📸 Instagram</label><input class="input" id="cfg-instagram_url"></div><div class="form-group"><label>🐦 Twitter/X</label><input class="input" id="cfg-twitter_url"></div><button class="btn" onclick="saveConfig()">Guardar configuración</button></div></div>
 
     <!-- Imágenes -->
     <div class="admin-section" id="tab-images">
@@ -1654,7 +1654,7 @@ footer a:hover { color: var(--primary-red); }
 </div>
 
 <div class="toast" id="toast"></div>
-<footer><p>Hecho con 🖤 por HEEFAMs · <strong>EVAN SIN:VANISH Era</strong></p><div class="footer-links" style="display:flex; gap:1rem; justify-content:center; margin-top:0.5rem"><a href="#" id="foot-twitter" target="_blank">Twitter</a><a href="#" id="foot-instagram" target="_blank">Instagram</a><a href="#" id="foot-spotify" target="_blank">Spotify</a><a href="#" id="foot-weverse" target="_blank">Weverse</a></div><p style="margin-top:0.8rem">Fan project — no oficial. EVAN (Lee Heeseung) aún no tiene canciones solistas oficiales. Spotify y YouTube se activarán cuando debute con música propia.</p></footer>
+<footer><p>Hecho con 🖤 por HEEFAMs · <strong>EVAN Solo Era</strong></p><div class="footer-links" style="display:flex; gap:1rem; justify-content:center; margin-top:0.5rem"><a href="#" id="foot-twitter" target="_blank">Twitter</a><a href="#" id="foot-instagram" target="_blank">Instagram</a><a href="#" id="foot-spotify" target="_blank">Spotify</a><a href="#" id="foot-weverse" target="_blank">Weverse</a></div><p style="margin-top:0.8rem">Fan project — no oficial. EVAN (Lee Heeseung) aún no tiene canciones solistas oficiales. Spotify y YouTube se activarán cuando debute con música propia.</p></footer>
 
 <script>
 const { createClient } = supabase;
@@ -2506,32 +2506,32 @@ async function deleteAlbum(id) {
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
 const YT_CHANNEL_ID = ''; // EVAN no tiene canal propio aún. Se actualizará cuando debute.
 const YT_VIDEO_IDS = [
-  { title: "ENHYPEN 'Knife' MV",                 id: "R6e4tBWxIxE" },
-  { title: "ENHYPEN 'Outside' Performance",      id: "xdX_8R8Unik" },
-  { title: "ENHYPEN 'Outside' MV",               id: "uHG-2mCfyT4" },
-  { title: "ENHYPEN 'Bad Desire' MV",            id: "a2Zqdo9RbNs" },
-  { title: "ENHYPEN 'No Doubt' MV",              id: "rDolt3jJRsM" },
-  { title: "ENHYPEN 'Highway 1009'",             id: "_ywIhBOpjQA" },
-  { title: "ENHYPEN 'Brought The Heat Back' MV", id: "yjxLMzeV76Q" },
-  { title: "ENHYPEN 'XO' MV",                    id: "FPDYeRk2PO8" },
-  { title: "ENHYPEN 'Big Girls Don't Cry' MV",                  id: "01R62JW9X6Y" },
-  { title: "ENHYPEN 'No Way Back (Feat. So!YoON!)' MV",         id: "3s3BVG798aU" },
-  { title: "ENHYPEN 'Stealer' MV (Special edit)",               id: "Mds7WAYiAck" },
-  { title: "ENHYPEN 'Sweet Venom' Official MV",                 id: "qedonJosQ3g" },
-  { title: "ENHYPEN 'Sacrifice (Eat Me Up)' Official MV",       id: "HROTJfbtcU4" },
-  { title: "ENHYPEN 'Bite Me' Official MV",                     id: "wXFLzODIdUI" },
-  { title: "ENHYPEN 'ParadoXXX Invasion' Official MV",          id: "HOciAVeq_HU" },
-  { title: "ENHYPEN 'Future Perfect (Pass the MIC)' Official MV", id: "QMlNLo74mOw" },
-  { title: "ENHYPEN 'Blessed-Cursed' Official MV",              id: "osmHArcf_aE" },
-  { title: "ENHYPEN 'Tamed-Dashed' Official MV",                id: "6IRsW_TkyVA" },
-  { title: "ENHYPEN 'HEY TAYO' Official MV",                    id: "xTCiQoZPHFM" },
-  { title: "ENHYPEN 'FEVER' Official MV",                       id: "X7d6Dt17yHk" },
-  { title: "ENHYPEN 'Drunk-Dazed' Official MV",                 id: "Fc7-Oe0tj5k" },
-  { title: "ENHYPEN 'Let Me In (20 CUBE)' Official MV",         id: "FKG48r9Wl8o" },
-  { title: "ENHYPEN 'Given-Taken' Official MV",                 id: "nQ6wLuYvGd4" },
-  { title: "ENHYPEN 'Shine On Me' Official MV",                 id: "HmAtJr0Mhh4" },
-  { title: "ENHYPEN 'Orange Flower (You Complete Me)' Official Track Video", id: "iwBfCHvFzPU" },
-  { title: "ENHYPEN 'One and Only' Official MV",                id: "CJsZTiYnRgI" }
+  { title: "EVAN 'Knife' MV",                 id: "R6e4tBWxIxE" },
+  { title: "EVAN 'Outside' Performance",      id: "xdX_8R8Unik" },
+  { title: "EVAN 'Outside' MV",               id: "uHG-2mCfyT4" },
+  { title: "EVAN 'Bad Desire' MV",            id: "a2Zqdo9RbNs" },
+  { title: "EVAN 'No Doubt' MV",              id: "rDolt3jJRsM" },
+  { title: "EVAN 'Highway 1009'",             id: "_ywIhBOpjQA" },
+  { title: "EVAN 'Brought The Heat Back' MV", id: "yjxLMzeV76Q" },
+  { title: "EVAN 'XO' MV",                    id: "FPDYeRk2PO8" },
+  { title: "EVAN 'Big Girls Don\'t Cry' MV",                  id: "01R62JW9X6Y" },
+  { title: "EVAN 'No Way Back (Feat. So!YoON!)' MV",         id: "3s3BVG798aU" },
+  { title: "EVAN 'Stealer' MV (Special edit)",               id: "Mds7WAYiAck" },
+  { title: "EVAN 'Sweet Venom' Official MV",                 id: "qedonJosQ3g" },
+  { title: "EVAN 'Sacrifice (Eat Me Up)' Official MV",       id: "HROTJfbtcU4" },
+  { title: "EVAN 'Bite Me' Official MV",                     id: "wXFLzODIdUI" },
+  { title: "EVAN 'ParadoXXX Invasion' Official MV",          id: "HOciAVeq_HU" },
+  { title: "EVAN 'Future Perfect (Pass the MIC)' Official MV", id: "QMlNLo74mOw" },
+  { title: "EVAN 'Blessed-Cursed' Official MV",              id: "osmHArcf_aE" },
+  { title: "EVAN 'Tamed-Dashed' Official MV",                id: "6IRsW_TkyVA" },
+  { title: "EVAN 'HEY TAYO' Official MV",                    id: "xTCiQoZPHFM" },
+  { title: "EVAN 'FEVER' Official MV",                       id: "X7d6Dt17yHk" },
+  { title: "EVAN 'Drunk-Dazed' Official MV",                 id: "Fc7-Oe0tj5k" },
+  { title: "EVAN 'Let Me In (20 CUBE)' Official MV",         id: "FKG48r9Wl8o" },
+  { title: "EVAN 'Given-Taken' Official MV",                 id: "nQ6wLuYvGd4" },
+  { title: "EVAN 'Shine On Me' Official MV",                 id: "HmAtJr0Mhh4" },
+  { title: "EVAN 'Orange Flower (You Complete Me)' Official Track Video", id: "iwBfCHvFzPU" },
+  { title: "EVAN 'One and Only' Official MV",                id: "CJsZTiYnRgI" }
 ];
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
@@ -2603,9 +2603,13 @@ async function loadYTDataPublic() {
     document.getElementById('yt-stats-container').innerHTML = `<div class="yt-stats-grid"><div class="yt-stat-card"><div class="yt-stat-value">${fmt(channelStats.subscribers)}</div><div class="yt-stat-label">Suscriptores</div><div class="yt-stat-change" style="color:#4ade80">▶ En vivo · YT API</div></div><div class="yt-stat-card"><div class="yt-stat-value">${fmt(channelStats.totalViews)}</div><div class="yt-stat-label">Vistas totales del canal</div><div class="yt-stat-change" style="color:#4ade80">▶ En vivo · YT API</div></div><div class="yt-stat-card"><div class="yt-stat-value">${channelStats.videoCount.toLocaleString()}</div><div class="yt-stat-label">Videos publicados</div><div class="yt-stat-change" style="color:#4ade80">▶ En vivo · YT API</div></div></div>`;
   } else {
     const {data:cfg} = await sb.from('site_config').select('*');
-    let subs=17600000, views=3200000000, subsD=100000, viewsD=3200000;
+    let subs=0, views=0, subsD=0, viewsD=0;
     if(cfg){ subs=parseInt(cfg.find(c=>c.key==='yt_subs')?.value)||subs; views=parseInt(cfg.find(c=>c.key==='yt_views')?.value)||views; subsD=parseInt(cfg.find(c=>c.key==='yt_subs_daily')?.value)||subsD; viewsD=parseInt(cfg.find(c=>c.key==='yt_views_daily')?.value)||viewsD; }
-    document.getElementById('yt-stats-container').innerHTML = `<div class="yt-stats-grid"><div class="yt-stat-card"><div class="yt-stat-value">${fmt(subs)}</div><div class="yt-stat-label">Suscriptores</div><div class="yt-stat-change">+${fmt(subsD)} hoy (manual)</div></div><div class="yt-stat-card"><div class="yt-stat-value">${fmt(views)}</div><div class="yt-stat-label">Vistas totales</div><div class="yt-stat-change">+${fmt(viewsD)} hoy (manual)</div></div></div><p style="font-size:0.7rem;color:var(--text-muted);margin-top:0.5rem">⚠️ YouTube API no disponible — datos manuales</p>`;
+    const subsDisplay = subs > 0 ? fmt(subs) : '—';
+    const viewsDisplay = views > 0 ? fmt(views) : '—';
+    const subsDChange = subsD > 0 ? `<div class="yt-stat-change">+${fmt(subsD)} hoy</div>` : '';
+    const viewsDChange = viewsD > 0 ? `<div class="yt-stat-change">+${fmt(viewsD)} hoy</div>` : '';
+    document.getElementById('yt-stats-container').innerHTML = `<div class="yt-stats-grid"><div class="yt-stat-card"><div class="yt-stat-value">${subsDisplay}</div><div class="yt-stat-label">Suscriptores</div>${subsDChange}</div><div class="yt-stat-card"><div class="yt-stat-value">${viewsDisplay}</div><div class="yt-stat-label">Vistas totales</div>${viewsDChange}</div></div><p style="font-size:0.7rem;color:var(--text-muted);margin-top:0.5rem">⚠️ YouTube API no disponible — datos manuales</p>`;
   }
   if (!videoItems || videoItems.length === 0) {
     const {data:vids} = await sb.from('yt_videos').select('*').order('sort_order');
@@ -2937,7 +2941,7 @@ async function loadAdminSpCharts() {
     return;
   }
   if (!data || data.length === 0) {
-    container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem">No hay entradas aún. Agrega posiciones de ENHYPEN desde el formulario de abajo.</p>';
+    container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem">No hay entradas aún. Agrega posiciones de EVAN desde el formulario de abajo.</p>';
     return;
   }
   container.innerHTML = data.map(e => `
