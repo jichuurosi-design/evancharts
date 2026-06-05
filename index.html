@@ -2505,34 +2505,7 @@ async function deleteAlbum(id) {
 // ========== YOUTUBE API (todo tu código original, sin modificaciones) ==========
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
 const YT_CHANNEL_ID = ''; // EVAN no tiene canal propio aún. Se actualizará cuando debute.
-const YT_VIDEO_IDS = [
-  { title: "EVAN 'Knife' MV",                 id: "R6e4tBWxIxE" },
-  { title: "EVAN 'Outside' Performance",      id: "xdX_8R8Unik" },
-  { title: "EVAN 'Outside' MV",               id: "uHG-2mCfyT4" },
-  { title: "EVAN 'Bad Desire' MV",            id: "a2Zqdo9RbNs" },
-  { title: "EVAN 'No Doubt' MV",              id: "rDolt3jJRsM" },
-  { title: "EVAN 'Highway 1009'",             id: "_ywIhBOpjQA" },
-  { title: "EVAN 'Brought The Heat Back' MV", id: "yjxLMzeV76Q" },
-  { title: "EVAN 'XO' MV",                    id: "FPDYeRk2PO8" },
-  { title: "EVAN 'Big Girls Don\'t Cry' MV",                  id: "01R62JW9X6Y" },
-  { title: "EVAN 'No Way Back (Feat. So!YoON!)' MV",         id: "3s3BVG798aU" },
-  { title: "EVAN 'Stealer' MV (Special edit)",               id: "Mds7WAYiAck" },
-  { title: "EVAN 'Sweet Venom' Official MV",                 id: "qedonJosQ3g" },
-  { title: "EVAN 'Sacrifice (Eat Me Up)' Official MV",       id: "HROTJfbtcU4" },
-  { title: "EVAN 'Bite Me' Official MV",                     id: "wXFLzODIdUI" },
-  { title: "EVAN 'ParadoXXX Invasion' Official MV",          id: "HOciAVeq_HU" },
-  { title: "EVAN 'Future Perfect (Pass the MIC)' Official MV", id: "QMlNLo74mOw" },
-  { title: "EVAN 'Blessed-Cursed' Official MV",              id: "osmHArcf_aE" },
-  { title: "EVAN 'Tamed-Dashed' Official MV",                id: "6IRsW_TkyVA" },
-  { title: "EVAN 'HEY TAYO' Official MV",                    id: "xTCiQoZPHFM" },
-  { title: "EVAN 'FEVER' Official MV",                       id: "X7d6Dt17yHk" },
-  { title: "EVAN 'Drunk-Dazed' Official MV",                 id: "Fc7-Oe0tj5k" },
-  { title: "EVAN 'Let Me In (20 CUBE)' Official MV",         id: "FKG48r9Wl8o" },
-  { title: "EVAN 'Given-Taken' Official MV",                 id: "nQ6wLuYvGd4" },
-  { title: "EVAN 'Shine On Me' Official MV",                 id: "HmAtJr0Mhh4" },
-  { title: "EVAN 'Orange Flower (You Complete Me)' Official Track Video", id: "iwBfCHvFzPU" },
-  { title: "EVAN 'One and Only' Official MV",                id: "CJsZTiYnRgI" }
-];
+const YT_VIDEO_IDS = [] // Sin videos hasta que EVAN debute
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
 function todayStr() { return new Date().toISOString().slice(0, 10); }
