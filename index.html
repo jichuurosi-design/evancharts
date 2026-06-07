@@ -2997,16 +2997,29 @@ async function loadPostComments(imageId) {
       list.innerHTML = '<div class="pm-no-comments">Sin comentarios aún</div>';
       return;
     }
+    // Get current user's anon name to identify own comments
+    const myAnonId = sessionStorage.getItem('evan_anon_id');
+    const myName = document.getElementById('pm-comment-name')?.value.trim()
+      || (myAnonId ? 'Anon' + myAnonId : null);
+
     list.innerHTML = data.map(c => {
       const isAdminComment = c.is_admin;
-      return `<div class="pm-comment">
-        <div class="pm-comment-avatar ${isAdminComment ? 'admin-av' : ''}">${isAdminComment ? (c.author_initials || 'SV') : (c.author_name?.slice(0,2).toUpperCase() || '??')}</div>
+      const isOwn = !isAdminComment && myName && c.author_name === myName;
+      const canModify = isAdmin || isOwn;
+      const initials = isAdminComment ? (c.author_initials || 'SV') : (c.author_name?.slice(0,2).toUpperCase() || '??');
+      const actions = canModify ? `
+        <div style="display:flex;gap:0.3rem;margin-top:0.25rem">
+          <button onclick="editComment(${c.id}, this)" style="background:none;border:none;color:var(--cream-muted);cursor:pointer;font-size:0.65rem;padding:0" title="Editar">✏️</button>
+          <button onclick="deleteComment(${c.id})" style="background:none;border:none;color:var(--cream-muted);cursor:pointer;font-size:0.65rem;padding:0" title="Eliminar">🗑️</button>
+        </div>` : '';
+      return `<div class="pm-comment" data-comment-id="${c.id}">
+        <div class="pm-comment-avatar ${isAdminComment ? 'admin-av' : ''}">${initials}</div>
         <div class="pm-comment-body">
-          <div class="pm-comment-name">${escapeHtml(c.author_name || 'Admin')}${isAdminComment ? '<span class="verified-badge">✦</span>' : ''}</div>
-          <div class="pm-comment-text">${escapeHtml(c.content)}</div>
+          <div class="pm-comment-name">${escapeHtml(c.author_name || 'Anon')}${isAdminComment ? '<span class="verified-badge">✦</span>' : ''}</div>
+          <div class="pm-comment-text" id="ctext-${c.id}">${escapeHtml(c.content)}</div>
           <div class="pm-comment-date">${pmTimeAgo(c.created_at)}</div>
+          ${actions}
         </div>
-        ${isAdmin ? `<button onclick="deleteComment(${c.id})" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.7rem;flex-shrink:0;align-self:flex-start;margin-top:.2rem" title="Eliminar">✕</button>` : ''}
       </div>`;
     }).join('');
   } catch(e) {
@@ -3090,9 +3103,47 @@ async function submitComment() {
 }
 
 async function deleteComment(id) {
-  if (!isAdmin || !confirm('¿Eliminar comentario?')) return;
-  await sb.from('post_comments').delete().eq('id', id);
+  if (!confirm('¿Eliminar comentario?')) return;
+  const { error } = await sb.from('post_comments').delete().eq('id', id);
+  if (error) { showToast('Error al eliminar', true); return; }
+  showToast('Comentario eliminado');
   await loadPostComments(pmCurrentId);
+}
+
+async function editComment(id, btn) {
+  const textEl = document.getElementById('ctext-' + id);
+  if (!textEl) return;
+  const current = textEl.textContent;
+  // Inline edit: replace text with input
+  const wrap = textEl.parentElement;
+  textEl.style.display = 'none';
+  const inp = document.createElement('textarea');
+  inp.value = current;
+  inp.style.cssText = 'width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--cream);font-family:Inter,sans-serif;font-size:.73rem;padding:.35rem .5rem;resize:none;height:52px;outline:none;border-radius:2px';
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Guardar';
+  saveBtn.className = 'btn btn-sm';
+  saveBtn.style.cssText = 'margin-top:0.3rem;font-size:0.62rem;padding:0.2rem 0.7rem';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancelar';
+  cancelBtn.className = 'btn btn-ghost btn-sm';
+  cancelBtn.style.cssText = 'margin-top:0.3rem;margin-left:0.3rem;font-size:0.62rem;padding:0.2rem 0.7rem';
+  wrap.appendChild(inp);
+  wrap.appendChild(saveBtn);
+  wrap.appendChild(cancelBtn);
+  inp.focus();
+  saveBtn.onclick = async () => {
+    const newText = inp.value.trim();
+    if (!newText) return;
+    const { error } = await sb.from('post_comments').update({ content: newText }).eq('id', id);
+    if (error) { showToast('Error al editar', true); return; }
+    showToast('Editado ✅');
+    await loadPostComments(pmCurrentId);
+  };
+  cancelBtn.onclick = () => {
+    inp.remove(); saveBtn.remove(); cancelBtn.remove();
+    textEl.style.display = '';
+  };
 }
 
 function pmNav(dir) {
