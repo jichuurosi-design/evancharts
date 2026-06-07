@@ -684,7 +684,8 @@ section {
 #pm-like-btn { background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--cream-muted);transition:.2s;padding:0; }
 #pm-like-btn.liked { color:var(--red); }
 #pm-like-count { font-size:.75rem;color:var(--cream-muted);font-family:'DM Mono',monospace; }
-#pm-comment-form { padding:.5rem 1rem .8rem;display:flex;flex-direction:column;gap:.5rem; }
+#pm-comment-form { padding:.5rem 1rem .8rem;display:none;flex-direction:column;gap:.5rem; }
+#pm-comment-form.visible { display:flex; }
 #pm-comment-input { background:var(--input-bg);border:1px solid var(--border);padding:.55rem .8rem;color:var(--cream);font-family:'Inter',sans-serif;font-size:.75rem;outline:none;resize:none;height:60px; }
 #pm-comment-input:focus { border-color:var(--gold); }
 
@@ -1006,7 +1007,8 @@ footer a:hover { color:var(--gold); }
           <span id="pm-date-post"></span>
         </div>
         <div id="pm-comment-form">
-          <textarea id="pm-comment-input" rows="2" placeholder="Escribe un comentario del artista..."></textarea>
+          <input id="pm-comment-name" class="input" placeholder="Tu nombre (opcional)" style="font-size:0.72rem;padding:0.4rem 0.7rem;margin-bottom:0.4rem">
+          <textarea id="pm-comment-input" rows="2" placeholder="Escribe un comentario..."></textarea>
           <div id="pm-comment-actions">
             <button class="btn btn-ghost btn-sm" onclick="cancelComment()">Cancelar</button>
             <button class="btn btn-sm" onclick="submitComment()">Publicar</button>
@@ -2972,7 +2974,7 @@ async function openPostModal(idx) {
 
   // Show/hide comment form (admin only)
   const form = document.getElementById('pm-comment-form');
-  form.classList.toggle('visible', isAdmin);
+  form.classList.add('visible'); // anyone can comment
 
   // Nav arrows
   document.getElementById('pm-prev').style.display = pmData.length > 1 ? 'flex' : 'none';
@@ -3041,26 +3043,44 @@ function cancelComment() {
 }
 
 async function submitComment() {
-  if (!isAdmin) return;
   const content = document.getElementById('pm-comment-input').value.trim();
   if (!content) { showToast('Escribe algo primero', true); return; }
   const img = pmData[pmIndex];
 
-  // Usar nombre del autor de la imagen actual o fallback a config
-  let authorName = img.author_name || 'Admin';
-  let authorInitials = img.author_initials || 'SV';
+  // Get or generate anon identity stored in sessionStorage
+  let anonId = sessionStorage.getItem('evan_anon_id');
+  if (!anonId) {
+    anonId = Math.floor(Math.random() * 9000) + 1000;
+    sessionStorage.setItem('evan_anon_id', anonId);
+  }
+
+  // Name input (optional) — fallback to Anon + id
+  const nameInput = document.getElementById('pm-comment-name')?.value.trim();
+  let authorName, authorInitials;
+
+  if (isAdmin) {
+    // Admin uses their configured profile name
+    authorName = img.author_name || 'Admin';
+    authorInitials = img.author_initials || 'SV';
+  } else if (nameInput) {
+    authorName = nameInput;
+    authorInitials = nameInput.slice(0,2).toUpperCase();
+  } else {
+    authorName = 'Anon' + anonId;
+    authorInitials = 'AN';
+  }
 
   const { error } = await sb.from('post_comments').insert({
     image_id: img.id,
     content,
     author_name: authorName,
     author_initials: authorInitials,
-    is_admin: true
+    is_admin: isAdmin
   });
 
   if (error) {
-    console.error('Comment insert error:', error);
-    showToast('Error al guardar: ' + (error.message || error.code), true);
+    console.error('Comment error:', error);
+    showToast('Error: ' + (error.message || error.code), true);
     return;
   }
 
