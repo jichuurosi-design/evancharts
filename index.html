@@ -633,7 +633,7 @@ section {
 .img-del { position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.8);border:none;color:white;padding:2px 6px;cursor:pointer;font-size:0.6rem; }
 
 /* ══════════════════════════════════════════
-   GALLERY
+   AVISOS
 ══════════════════════════════════════════ */
 .gallery-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border); }
 .wv-card { background:var(--bg-card);cursor:pointer;transition:background 0.2s;display:flex;flex-direction:column; }
@@ -750,7 +750,7 @@ footer a:hover { color:var(--gold); }
     <a onclick="showPage('youtube',this)">YouTube</a>
     <a onclick="showPage('charts',this)">Charts</a>
     <a onclick="showPage('goals',this)">Goals</a>
-    <a onclick="showPage('gallery',this)">Galería</a>
+    <a onclick="showPage('gallery',this)">Avisos</a>
   </div>
   <div class="nav-right">
     <div class="admin-indicator" id="admin-indicator" style="display:none">
@@ -965,10 +965,10 @@ footer a:hover { color:var(--gold); }
   </section>
 </div>
 
-<!-- GALERÍA -->
+<!-- AVISOS -->
 <div id="gallery" class="page">
   <section>
-    <div class="section-header"><div class="section-title">Galería · EVANcharts</div><div class="section-line"></div></div>
+    <div class="section-header"><div class="section-title">Avisos · EVANcharts</div><div class="section-line"></div></div>
     <div id="gallery-grid" class="wv-grid"><div class="loading"><div class="spin"></div></div></div>
   </section>
 </div>
@@ -1346,7 +1346,7 @@ footer a:hover { color:var(--gold); }
     <div class="admin-section" id="tab-images">
       <div class="admin-card">
         <h3>👤 Perfil de publicación</h3>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">El nombre y avatar que aparecen en cada post de la galería.</p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem">El nombre y avatar que aparecen en cada aviso publicado.</p>
         <div class="form-group"><label>Nombre del admin</label><input class="input" id="admin-profile-name" placeholder="ej: Admin 1"></div>
         <div class="form-group"><label>Iniciales del avatar (2 letras)</label><input class="input" id="admin-profile-initials" placeholder="ej: A1" maxlength="3"></div>
         <button class="btn" onclick="saveAdminProfile()">💾 Guardar perfil</button>
@@ -2747,8 +2747,9 @@ function fmtLong(n) {
 function renderArtistChart(listeners, followers, streams, streamsDaily) {
   function statCard(label, value, liveLabel, daily) {
     // For solo debut artist: only show listeners/followers if set manually (not huge ENHYPEN-scale values)
-    const isListenerOrFollower = label.includes('Listener') || label.includes('Follower');
-    const validValue = value && (!isListenerOrFollower || value < 50000000);
+    // For solo debut: show — until admin manually sets values in this project's DB
+    // All values start as null until Kworb scrapes real EVAN data
+    const validValue = value && value > 0;
     const valHtml = validValue
       ? `<div class="ast-value">${fmtLong(value)}</div>`
       : `<div class="ast-value" style="font-size:0.9rem;color:var(--cream-muted)">—</div>`;
@@ -2771,15 +2772,17 @@ async function loadKworbArtist(forceRefresh = false) {
 
   // 1. Listeners, Followers, Total Streams y Today desde Supabase (manual)
   let listeners = null, followers = null, manualStreams = null, manualToday = null;
+  // Threshold: if streams > 2B it's leftover ENHYPEN data, ignore it
+  const MAX_EVAN_STREAMS = 2_000_000_000;
   try {
     const { data: cfg } = await sb.from('site_config').select('key,value')
       .in('key', ['sp_monthly_listeners','sp_followers','sp_total_streams','sp_streams_today']);
     if (cfg) {
       cfg.forEach(r => {
-        if (r.key === 'sp_monthly_listeners') listeners     = parseInt(r.value) || null;
-        if (r.key === 'sp_followers')          followers     = parseInt(r.value) || null;
-        if (r.key === 'sp_total_streams')      manualStreams = parseInt(r.value) || null;
-        if (r.key === 'sp_streams_today')      manualToday   = parseInt(r.value) || null;
+        if (r.key === 'sp_monthly_listeners') { const v=parseInt(r.value)||0; listeners    = (v>0 && v<50000000) ? v : null; }
+        if (r.key === 'sp_followers')          { const v=parseInt(r.value)||0; followers    = (v>0 && v<30000000) ? v : null; }
+        if (r.key === 'sp_total_streams')      { const v=parseInt(r.value)||0; manualStreams = (v>0 && v<2000000000) ? v : null; }
+        if (r.key === 'sp_streams_today')      { const v=parseInt(r.value)||0; manualToday   = (v>0 && v<50000000)  ? v : null; }
       });
     }
     // Precargar campos del admin
