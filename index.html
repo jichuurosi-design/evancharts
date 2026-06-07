@@ -1104,7 +1104,7 @@ footer a:hover { color:var(--gold); }
       <div class="admin-card">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;margin-bottom:0.8rem">
           <h3 style="margin:0">📊 Actualización masiva de streams</h3>
-          <a href="https://kworb.net/spotify/artist/5t5FqBwTcgKTaWmfEbwQY9_songs.html" target="_blank" class="btn btn-ghost btn-sm">🔗 Kworb</a>
+          <a href="https://kworb.net/spotify/" title="Kworb — disponible cuando EVAN debute" target="_blank" class="btn btn-ghost btn-sm">🔗 Kworb</a>
         </div>
         <div style="background:var(--bg-elevated);border:1px solid var(--border-dim);border-radius:12px;padding:0.9rem;margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);line-height:1.8">
           <strong style="color:var(--text-main)">Cómo usar:</strong> Ve a Kworb → selecciona toda la tabla (Ctrl+A o arrastra) → copia (Ctrl+C) → pega abajo → Procesar → Guardar.
@@ -1173,7 +1173,7 @@ footer a:hover { color:var(--gold); }
       <div class="admin-card">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;margin-bottom:0.8rem">
           <h3 style="margin:0">📊 Actualización masiva de álbumes</h3>
-          <a href="https://kworb.net/spotify/artist/5t5FqBwTcgKTaWmfEbwQY9.html" target="_blank" class="btn btn-ghost btn-sm">🔗 Kworb</a>
+          <a href="https://kworb.net/spotify/" title="Kworb — disponible cuando EVAN debute" target="_blank" class="btn btn-ghost btn-sm">🔗 Kworb</a>
         </div>
         <div style="background:var(--bg-elevated);border:1px solid var(--border-dim);border-radius:12px;padding:0.9rem;margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);line-height:1.8">
           <strong style="color:var(--text-main)">Cómo usar:</strong> Ve a Kworb Albums → copia la tabla → pega abajo → Procesar → Guardar.<br>
@@ -2727,7 +2727,7 @@ function switchChartTab(id,el){ document.querySelectorAll('#charts .tabs .tab').
 function switchAdminTab(id,el){ document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); if(id==='tab-apple') loadAdminAppleSongs(); }
 
 // ========== KWORB ARTIST CHART ==========
-const KWORB_ARTIST_SLUG = 'enhypen';
+const KWORB_ARTIST_SLUG = ''; // Set this when EVAN has a Kworb page
 const KWORB_CACHE_KEY   = 'enhypen_kworb_cache';
 const KWORB_CACHE_TTL   = 15 * 60 * 1000;
 
@@ -2767,6 +2767,24 @@ function renderArtistChart(listeners, followers, streams, streamsDaily) {
 }
 
 async function loadKworbArtist(forceRefresh = false) {
+  if (!KWORB_ARTIST_SLUG) {
+    // No artist slug set — just load saved values from DB (manual only)
+    let listeners = null, followers = null, manualStreams = null, manualToday = null;
+    try {
+      const { data } = await sb.from('site_config').select('key,value')
+        .in('key', ['sp_monthly_listeners','sp_followers','sp_total_streams','sp_streams_today']);
+      (data||[]).forEach(r => {
+        if (r.key === 'sp_monthly_listeners') { const v=parseInt(r.value)||0; listeners    = (v>0&&v<50000000)?v:null; }
+        if (r.key === 'sp_followers')          { const v=parseInt(r.value)||0; followers    = (v>0&&v<30000000)?v:null; }
+        if (r.key === 'sp_total_streams')      { const v=parseInt(r.value)||0; manualStreams = (v>0&&v<2000000000)?v:null; }
+        if (r.key === 'sp_streams_today')      { const v=parseInt(r.value)||0; manualToday  = (v>0&&v<50000000)?v:null; }
+      });
+    } catch(e) {}
+    renderArtistChart(listeners, followers, manualStreams, manualToday);
+    const meta = document.getElementById('kworb-meta');
+    if (meta) meta.textContent = 'Datos manuales — Kworb no disponible aún';
+    return;
+  }
   const btn = document.getElementById('kworb-btn');
   if (btn) { btn.classList.add('spinning'); btn.disabled = true; }
 
