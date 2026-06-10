@@ -582,6 +582,15 @@ section {
    THEME SELECTOR
 ══════════════════════════════════════════ */
 .theme-selector { position:relative; }
+/* ===== LANGUAGE SELECTOR ===== */
+.lang-selector { position:relative; }
+.lang-btn { display:flex;align-items:center;gap:0.45rem;background:transparent;border:1px solid var(--border);padding:0.32rem 0.8rem;color:var(--cream-dim);font-size:0.67rem;cursor:pointer;font-family:'Inter',sans-serif;transition:border-color 0.2s;white-space:nowrap; }
+.lang-btn:hover { border-color:var(--gold); }
+.lang-flag { font-size:0.85rem;line-height:1; }
+.lang-dropdown { display:none;position:absolute;left:0;top:calc(100% + 6px);background:var(--bg-card);border:1px solid var(--border);min-width:128px;z-index:100;overflow:hidden; }
+.lang-selector:hover .lang-dropdown,.lang-dropdown.open { display:block; }
+.lang-option { display:flex;align-items:center;gap:0.6rem;padding:0.6rem 1rem;font-size:0.75rem;color:var(--cream-dim);cursor:pointer;transition:background 0.15s; }
+.lang-option:hover,.lang-option.active { background:var(--bg-raised);color:var(--gold); }
 .theme-btn { display:flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid var(--border);padding:0.32rem 0.8rem;color:var(--cream-dim);font-size:0.67rem;cursor:pointer;font-family:'Inter',sans-serif;transition:border-color 0.2s; }
 .theme-btn:hover { border-color:var(--gold); }
 .theme-dot,.td { width:8px;height:8px;border-radius:50%;display:inline-block; }
@@ -758,6 +767,18 @@ footer a:hover { color:var(--gold); }
       <div class="admin-dot" id="admin-dot"></div>
       <span id="admin-label" style="display:none">Admin</span>
     </div>
+    <!-- Language Selector -->
+    <div class="lang-selector" id="langSel">
+      <button class="lang-btn" id="langBtn" onclick="toggleLangDropdown()">
+        <span class="lang-flag" id="langFlag">🇺🇸</span>
+        <span id="langLabel">EN</span> ▾
+      </button>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-option active" id="lopt-en" onclick="setLang('en')"><span class="lang-flag">🇺🇸</span> English</div>
+        <div class="lang-option" id="lopt-es" onclick="setLang('es')"><span class="lang-flag">🇪🇸</span> Español</div>
+        <div class="lang-option" id="lopt-ko" onclick="setLang('ko')"><span class="lang-flag">🇰🇷</span> 한국어</div>
+      </div>
+    </div>
     <!-- Theme Selector -->
     <div class="theme-selector" id="themeSel">
       <button class="theme-btn" onclick="toggleThemeDropdown()" id="themeBtnLabel">
@@ -796,7 +817,7 @@ footer a:hover { color:var(--gold); }
   <section>
     <div class="section-header"><div class="section-title">Meta principal</div><div class="section-line"></div></div>
     <div id="home-goal-card"><div class="loading"><div class="spin"></div><br>Cargando...</div></div>
-    <div class="tip-box"><p>🔥 <strong>Ritual de streaming:</strong> Cada reproducción cuenta. Usa playlists oficiales, evita mute y reproduce al menos 30 segundos. ¡Juntos rompemos récords!</p></div>
+    <div class="tip-box"><p><span data-lang="tip_streaming">🔥 <strong>Ritual de streaming:</strong> Cada reproducción cuenta. Usa playlists oficiales, evita mute y reproduce al menos 30 segundos. ¡Juntos rompemos récords!</span></p></div>
   </section>
   <section>
     <div class="section-header"><div class="section-title">Playlists destacadas</div><div class="section-line"></div></div>
@@ -830,7 +851,7 @@ footer a:hover { color:var(--gold); }
     </div>
     <div class="section-header"><div class="section-title">Top Canciones - Spotify</div><div class="section-line"></div></div>
     <div id="spotify-songs-table"><div class="loading"><div class="spin"></div><br>Cargando canciones...</div></div>
-    <div class="tip-box"><p>📊 Datos actualizados manualmente por el staff. Los streams diarios se calculan automáticamente al actualizar el total.</p></div>
+    <div class="tip-box"><p><span data-lang="tip_spotify">📊 Datos actualizados manualmente por el staff. Los streams diarios se calculan automáticamente al actualizar el total.</span></p></div>
   </section>
   <section>
     <div class="section-header"><div class="section-title">Album / EP Chart</div><div class="section-line"></div></div>
@@ -3358,6 +3379,113 @@ loadAll();
 
 let seq=''; document.addEventListener('keydown',e=>{ seq=(seq+e.key.toLowerCase()).slice(-3); if(seq==='adm'){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; } });
 let tap=0, timer; document.querySelector('.nav-logo').addEventListener('click',()=>{ tap++; clearTimeout(timer); timer=setTimeout(()=>tap=0,600); if(tap>=5){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; tap=0; } });
+
+// ===== LANGUAGE SYSTEM =====
+const TRANSLATIONS = {
+  en: {
+    nav_home: 'Home', nav_spotify: 'Spotify', nav_apple: 'Apple Music',
+    nav_youtube: 'YouTube', nav_charts: 'Charts', nav_goals: 'Goals', nav_gallery: 'Avisos',
+    sec_goal: 'Main Goal', sec_playlists: 'Featured Playlists',
+    sec_artist_chart: 'Artist Chart', sec_top_songs: 'Top Songs',
+    sec_sp_playlists: 'Spotify Playlists', sec_albums: 'Album / EP Chart',
+    sec_yt_overview: 'YouTube Channel Overview', sec_mv_chart: 'Music Video Chart',
+    sec_sp_charts: 'Spotify Charts — EVAN', sec_goals_tracker: 'Goals Tracker',
+    sec_gallery: 'Gallery · EVANcharts',
+    tip_streaming: '🔥 <strong>Streaming ritual:</strong> Every play counts. Use official playlists, avoid mute and play for at least 30 seconds. Together we break records!',
+    tip_spotify: '📊 Data updated manually by staff. Daily streams are calculated automatically when you update the total.',
+    tip_sp_listen: '🎧 Listen in shuffle mode without muting. The algorithm loves consistency.',
+    tip_yt: '📊 Data updated automatically from YouTube API. Support the recent videos!',
+    subs: 'Subscribers', total_views: 'Total Channel Views', videos_pub: 'Published Videos',
+    live_data: '▶ Live · YT API', manual_data: '⚠️ YouTube API unavailable — manual data',
+    admin_btn: '⚙️ Admin',
+  },
+  es: {
+    nav_home: 'Home', nav_spotify: 'Spotify', nav_apple: 'Apple Music',
+    nav_youtube: 'YouTube', nav_charts: 'Charts', nav_goals: 'Metas', nav_gallery: 'Avisos',
+    sec_goal: '<span data-lang="sec_goal">Meta Principal</span>', sec_playlists: '<span data-lang="sec_playlists">Playlists Destacadas</span>',
+    sec_artist_chart: 'Artist Chart', sec_top_songs: 'Top Canciones',
+    sec_sp_playlists: 'Playlists de Spotify', sec_albums: 'Album / EP Chart',
+    sec_yt_overview: 'YouTube Channel Overview', sec_mv_chart: 'Music Video Chart',
+    sec_sp_charts: 'Spotify Charts — EVAN', sec_goals_tracker: 'Tracker de Metas',
+    sec_gallery: 'Galería · EVANcharts',
+    tip_streaming: '🔥 <strong>Ritual de streaming:</strong> Cada reproducción cuenta. Usa playlists oficiales, evita mute y reproduce al menos 30 segundos. ¡Juntos rompemos récords!',
+    tip_spotify: '📊 Datos actualizados manualmente por el staff. Los streams diarios se calculan automáticamente al actualizar el total.',
+    tip_sp_listen: '<span data-lang="tip_sp_listen">🎧 Escucha las listas en modo aleatorio y sin silenciar. El algoritmo ama la consistencia.</span>',
+    tip_yt: '<span data-lang="tip_yt">📊 Datos actualizados automáticamente desde YouTube API. ¡Apoya los videos recientes!</span>',
+    subs: 'Suscriptores', total_views: 'Vistas Totales del Canal', videos_pub: 'Videos Publicados',
+    live_data: '▶ En vivo · YT API', manual_data: '⚠️ YouTube API no disponible — datos manuales',
+    admin_btn: '⚙️ Admin',
+  },
+  ko: {
+    nav_home: '홈', nav_spotify: '스포티파이', nav_apple: '애플 뮤직',
+    nav_youtube: '유튜브', nav_charts: '차트', nav_goals: '목표', nav_gallery: '공지',
+    sec_goal: '주요 목표', sec_playlists: '추천 플레이리스트',
+    sec_artist_chart: '아티스트 차트', sec_top_songs: '인기 곡',
+    sec_sp_playlists: '스포티파이 플레이리스트', sec_albums: '앨범 / EP 차트',
+    sec_yt_overview: 'YouTube 채널 현황', sec_mv_chart: '뮤직비디오 차트',
+    sec_sp_charts: 'Spotify 차트 — EVAN', sec_goals_tracker: '목표 트래커',
+    sec_gallery: '갤러리 · EVANcharts',
+    tip_streaming: '🔥 <strong>스트리밍 팁:</strong> 모든 재생이 중요합니다. 공식 플레이리스트를 사용하고 음소거 없이 30초 이상 재생하세요. 함께 기록을 깨요!',
+    tip_spotify: '📊 스태프가 수동으로 업데이트한 데이터입니다. 일별 스트리밍은 총계 업데이트 시 자동으로 계산됩니다.',
+    tip_sp_listen: '🎧 셔플 모드로 음소거 없이 들어주세요. 알고리즘은 일관성을 좋아합니다.',
+    tip_yt: '📊 YouTube API에서 자동으로 업데이트된 데이터입니다. 최신 영상을 응원해주세요!',
+    subs: '구독자', total_views: '채널 총 조회수', videos_pub: '업로드된 영상',
+    live_data: '▶ 실시간 · YT API', manual_data: '⚠️ YouTube API 사용 불가 — 수동 데이터',
+    admin_btn: '⚙️ 관리자',
+  }
+};
+
+let currentLang = localStorage.getItem('evan_lang') || 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('evan_lang', lang);
+  const t = TRANSLATIONS[lang];
+  const flags = { en: '🇺🇸', es: '🇪🇸', ko: '🇰🇷' };
+  const labels = { en: 'EN', es: 'ES', ko: 'KO' };
+
+  // Update button
+  document.getElementById('langFlag').textContent = flags[lang];
+  document.getElementById('langLabel').textContent = labels[lang];
+
+  // Update active option
+  ['en','es','ko'].forEach(l => {
+    const el = document.getElementById('lopt-'+l);
+    if (el) el.classList.toggle('active', l === lang);
+  });
+
+  // Nav links
+  const navKeys = ['home','spotify','apple','youtube','charts','goals','gallery'];
+  const navEls = document.querySelectorAll('.nav-links a');
+  navEls.forEach((el, i) => { if(navKeys[i]) el.textContent = t['nav_'+navKeys[i]]; });
+
+  // Section titles (data-lang attributes)
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    const key = el.getAttribute('data-lang');
+    if (t[key]) el.innerHTML = t[key];
+  });
+
+  // Close dropdown
+  document.getElementById('langDropdown').classList.remove('open');
+}
+
+function toggleLangDropdown() {
+  document.getElementById('langDropdown').classList.toggle('open');
+  // Close theme dropdown if open
+  const td = document.querySelector('.theme-dropdown');
+  if (td) td.classList.remove('open');
+}
+
+// Close lang dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('langSel')?.contains(e.target)) {
+    document.getElementById('langDropdown')?.classList.remove('open');
+  }
+});
+
+// Apply saved language on load
+document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+setTimeout(() => setLang(currentLang), 500);
 </script>
 </body>
 </html>
