@@ -885,13 +885,7 @@ footer a:hover { color:var(--gold); }
 <!-- YOUTUBE -->
 <div id="youtube" class="page">
   <section><div class="section-header"><div class="section-title">YouTube Channel Overview</div><div class="section-line"></div></div>
-    <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:0.4rem">
-        <div class="dot-live" style="width:6px;height:6px"></div>
-        <span style="font-size:0.68rem;color:var(--text-muted);font-family:'Orbitron',monospace;letter-spacing:1px">AUTO-REFRESH · CADA HORA</span>
-      </div>
-      <span id="yt-next-refresh" style="font-size:0.68rem;color:var(--text-muted);margin-left:auto">Próxima actualización: —</span>
-    </div>
+    
     <div id="yt-stats-container"><div class="loading"><div class="spin"></div></div></div>
     <div class="section-header" style="margin-top:2rem"><div class="section-title">Music Video Chart</div><div class="section-line"></div></div>
     <div id="yt-videos-container"><div class="loading"><div class="spin"></div></div></div>
@@ -996,7 +990,7 @@ footer a:hover { color:var(--gold); }
         <div id="pm-avatar">SV</div>
         <div>
           <div id="pm-author">Admin</div>
-          <div id="pm-author-handle">@sinvanish</div>
+          <div id="pm-author-handle">@EVANchartsTeam</div>
         </div>
         <button id="pm-close" onclick="closePostModal()">✕</button>
       </div>
@@ -2907,7 +2901,7 @@ function setTheme(theme) {
   // Close dropdown
   document.getElementById('themeSel').classList.remove('open');
   // Persist
-  localStorage.setItem('sinvanish_theme', theme);
+  localStorage.setItem('EVANchartsTeam_theme', theme);
 }
 
 function toggleThemeDropdown() {
@@ -2922,7 +2916,7 @@ document.addEventListener('click', e => {
 
 // Load saved theme on startup
 (function() {
-  const saved = localStorage.getItem('sinvanish_theme') || 'black';
+  const saved = localStorage.getItem('EVANchartsTeam_theme') || 'black';
   if (saved !== 'black') setTheme(saved);
 })();
 
@@ -2957,7 +2951,7 @@ async function openPostModal(idx) {
   const authorInitials = img.author_initials || 'SV';
   document.getElementById('pm-avatar').textContent = authorInitials;
   document.getElementById('pm-author').textContent = authorName;
-  document.getElementById('pm-author-handle').textContent = '@sinvanish';
+  document.getElementById('pm-author-handle').textContent = '@EVANchartsTeam';
 
   // Caption
   document.getElementById('pm-caption-author-name').textContent = authorName + ' ';
@@ -3360,31 +3354,7 @@ function renderAppleTopSongs(songs) {
 
 async function loadAll(){ await Promise.all([loadConfig(), loadGoalsPublic(), loadPlaylistsPublic(), loadSpotifySongsPublic(), loadSpotifyAlbumsPublic(), loadYTDataPublic(), loadSpChartsPublic(), loadGalleryPublic()]); loadKworbArtist(); loadAppleMusic(); }
 loadAll();
-// AUTO-REFRESH YouTube cada hora
-const YT_REFRESH_INTERVAL = 60 * 60 * 1000;
-let ytNextRefreshAt = Date.now() + YT_REFRESH_INTERVAL;
 
-function updateYTCountdown() {
-  const el = document.getElementById('yt-next-refresh');
-  if (!el) return;
-  const remaining = ytNextRefreshAt - Date.now();
-  if (remaining <= 0) { el.textContent = 'Actualizando...'; return; }
-  const mins = Math.ceil(remaining / 60000);
-  const hrs  = Math.floor(mins / 60);
-  const m    = mins % 60;
-  el.textContent = hrs > 0
-    ? 'Próxima actualización en ' + hrs + 'h ' + m + 'm'
-    : 'Próxima actualización en ' + m + ' min';
-}
-updateYTCountdown();
-setInterval(updateYTCountdown, 60 * 1000);
-
-setInterval(async () => {
-  ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
-  ytNextRefreshAt = Date.now() + YT_REFRESH_INTERVAL;
-  updateYTCountdown();
-  await loadYTDataPublic();
-}, YT_REFRESH_INTERVAL);
 
 let seq=''; document.addEventListener('keydown',e=>{ seq=(seq+e.key.toLowerCase()).slice(-3); if(seq==='adm'){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; } });
 let tap=0, timer; document.querySelector('.nav-logo').addEventListener('click',()=>{ tap++; clearTimeout(timer); timer=setTimeout(()=>tap=0,600); if(tap>=5){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; tap=0; } });
