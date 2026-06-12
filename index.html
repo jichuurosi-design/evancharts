@@ -645,8 +645,9 @@ section {
    AVISOS
 ══════════════════════════════════════════ */
 .gallery-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border); }
-.wv-card { background:var(--bg-card);cursor:pointer;transition:background 0.2s;display:flex;flex-direction:column; }
-.wv-card:hover { background:var(--bg-raised); }
+.wv-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; }
+.wv-card { background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:background 0.2s,border-color 0.2s;display:flex;flex-direction:column; }
+.wv-card:hover { background:var(--bg-raised);border-color:var(--gold-dim); }
 .wv-card-header { display:flex;align-items:center;gap:0.75rem;padding:0.9rem 1rem 0.6rem; }
 .wv-avatar { width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#080808;font-family:'DM Mono',monospace;flex-shrink:0; }
 .wv-card-author { font-size:0.78rem;font-weight:600;color:var(--cream);display:flex;align-items:center;gap:0.3rem; }
