@@ -2267,7 +2267,7 @@ async function deleteAlbum(id) {
 // ========== YOUTUBE API (todo tu código original, sin modificaciones) ==========
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
 const YT_CHANNEL_ID = ''; // EVAN no tiene canal propio aún. Se actualizará cuando debute.
-const YT_VIDEO_IDS = [] // Sin videos hasta que EVAN debute
+const YT_VIDEO_IDS = [{ id: 'Qw3T9NBnOyc', title: 'EVAN - RIDE OR DIE' }]
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
 function todayStr() { return new Date().toISOString().slice(0, 10); }
