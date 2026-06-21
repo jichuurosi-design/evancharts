@@ -2358,9 +2358,14 @@ async function loadYTDataPublic() {
   }
   const apiMap = {};
   videoItems.forEach(item => { apiMap[item.id] = { title: item.snippet?.title || '', views: parseInt(item.statistics?.viewCount)||0, likes: parseInt(item.statistics?.likeCount)||0, comments: parseInt(item.statistics?.commentCount)||0, thumb: item.snippet?.thumbnails?.medium?.url||'' }; });
+  // Leer daily24h desde site_config (guardados por Edge Function)
+  const daily24hKeys = YT_VIDEO_IDS.map(v => 'yt_daily24h_' + v.id);
+  const { data: dailyCfg } = await sb.from('site_config').select('key,value').in('key', daily24hKeys);
+  const daily24hMap = {};
+  (dailyCfg || []).forEach(c => { const vid = c.key.replace('yt_daily24h_', ''); daily24hMap[vid] = parseInt(c.value) || 0; });
   const snapMap = {};
   (yesterdaySnaps || []).forEach(s => { snapMap[s.video_id] = parseInt(s.total_views) || 0; });
-  const videos = YT_VIDEO_IDS.map(v => { const api = apiMap[v.id] || {}; const curr = api.views||0; const prev = snapMap[v.id]||0; const daily = (prev>0 && curr>=prev) ? curr-prev : null; return { ...v, ...api, views: curr, daily24h: daily }; }).sort((a,b)=> (b.views||0)-(a.views||0));
+  const videos = YT_VIDEO_IDS.map(v => { const api = apiMap[v.id] || {}; const curr = api.views||0; const prev = snapMap[v.id]||0; const cfDaily = daily24hMap[v.id]; const calcDaily = (prev>0 && curr>=prev) ? curr-prev : null; const daily = cfDaily > 0 ? cfDaily : calcDaily; return { ...v, ...api, views: curr, daily24h: daily }; }).sort((a,b)=> (b.views||0)-(a.views||0));
   const toSnap = videos.filter(v => v.views>0).map(v => ({ video_id: v.id, views: v.views }));
   saveSnapshot(toSnap);
   try {
