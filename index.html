@@ -912,26 +912,6 @@ footer a:hover { color:var(--gold); }
     
     <div id="yt-stats-container"><div class="loading"><div class="spin"></div></div></div>
 
-    <!-- RIDE OR DIE MV -->
-    <div class="section-header" style="margin-top:2rem">
-      <div class="section-title" style="display:flex;align-items:center;gap:0.6rem">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--red,#e05555)"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        EVAN — 'Ride or Die' Official MV
-      </div>
-      <div class="section-line"></div>
-    </div>
-    <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--border);background:#000;margin-bottom:2rem">
-      <iframe
-        src="https://www.youtube.com/embed/CsGENgLpyaw?si=ZGYxaoyf68jhjBJW"
-        title="EVAN (에반) 'Ride or Die' Official MV"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-        style="position:absolute;top:0;left:0;width:100%;height:100%">
-      </iframe>
-    </div>
-
     <div class="section-header" style="margin-top:2rem"><div class="section-title">Music Video Chart</div><div class="section-line"></div></div>
     <div id="yt-videos-container"><div class="loading"><div class="spin"></div></div></div>
     <div class="tip-box"><p>📊 Datos actualizados automáticamente desde YouTube API cada hora. ¡Apoya los videos recientes!</p></div>
@@ -2290,7 +2270,7 @@ async function deleteAlbum(id) {
 // ========== YOUTUBE API (todo tu código original, sin modificaciones) ==========
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
 const YT_CHANNEL_ID = ''; // EVAN no tiene canal propio aún. Se actualizará cuando debute.
-const YT_VIDEO_IDS = [{ id: "Qw3T9NBnOyc", title: "EVAN - RIDE OR DIE" }, { id: "LIEOXiEAq5E", title: "EVAN (에반) Ride or Die Official MV Teaser" }]
+const YT_VIDEO_IDS = [{ id: "CsGENgLpyaw", title: "EVAN (에반) 'Ride or Die' Official MV" }, { id: "Qw3T9NBnOyc", title: "EVAN - RIDE OR DIE" }, { id: "LIEOXiEAq5E", title: "EVAN (에반) Ride or Die Official MV Teaser" }]
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
 function todayStr() { return new Date().toISOString().slice(0, 10); }
