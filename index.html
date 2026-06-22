@@ -1428,6 +1428,11 @@ function showToast(msg,err){ let t=document.getElementById('toast'); t.textConte
 function platformIcon(p){ let m={spotify:'🎵',youtube:'▶',apple:'🎶',stationhead:'📡'}; return m[(p||'').toLowerCase()]||'🎵'; }
 function platformClass(p){ let m={spotify:'pl-spotify',youtube:'pl-youtube',apple:'pl-apple',stationhead:'pl-stationhead'}; return m[(p||'').toLowerCase()]||'pl-spotify'; }
 function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m==='&') return '&amp;'; if (m==='<') return '&lt;'; if (m==='>') return '&gt;'; return m; }); }
+function titlesMatch(a, b) {
+  if (!a || !b) return false;
+  const clean = s => s.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+  return clean(a) === clean(b);
+}
 
 // ========== CONFIGURACIÓN ==========
 async function loadConfig(){
@@ -3432,7 +3437,7 @@ async function loadAll(){ await Promise.all([loadConfig(), loadGoalsPublic(), lo
 loadAll();
 
 
-let seq=''; document.addEventListener('keydown',e=>{ seq=(seq+e.key.toLowerCase()).slice(-3); if(seq==='adm'){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; } });
+let seq=''; document.addEventListener('keydown',e=>{ if(!e.key) return; seq=(seq+e.key.toLowerCase()).slice(-3); if(seq==='adm'){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; } });
 let tap=0, timer; document.querySelector('.nav-logo').addEventListener('click',()=>{ tap++; clearTimeout(timer); timer=setTimeout(()=>tap=0,600); if(tap>=5){ document.getElementById('admin-btn').style.display='inline-flex'; document.getElementById('admin-indicator').style.display='flex'; tap=0; } });
 
 // ===== LANGUAGE SYSTEM =====
