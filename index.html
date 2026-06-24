@@ -2294,7 +2294,13 @@ async function deleteAlbum(id) {
 // ========== YOUTUBE API (todo tu código original, sin modificaciones) ==========
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
 const YT_CHANNEL_ID = 'UCZ2HxqOVq5Hm9jjgWxCBweQ'; // Canal oficial EVAN (@h_evva_n)
-const YT_VIDEO_IDS = [{ id: "CsGENgLpyaw", title: "EVAN (에반) 'Ride or Die' Official MV" }, { id: "Qw3T9NBnOyc", title: "EVAN - RIDE OR DIE" }, { id: "LIEOXiEAq5E", title: "EVAN (에반) Ride or Die Official MV Teaser" }, { id: "3SHd1xhjI9s", title: "EVAN (에반) 'Overflow' [LIVE]" }]
+const YT_VIDEO_IDS = [
+  { id: "CsGENgLpyaw", title: "EVAN (에반) 'Ride or Die' Official MV" },
+  { id: "Qw3T9NBnOyc", title: "EVAN - RIDE OR DIE" },
+  { id: "LIEOXiEAq5E", title: "EVAN (에반) Ride or Die Official MV Teaser" },
+  { id: "3SHd1xhjI9s", title: "EVAN (에반) 'Overflow' [LIVE]" },
+  { id: "sS9XGAFoRM0", title: "EVAN (에반) 'Ride or Die' MV Shoot Sketch | Archiv:E" }
+]
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
 function todayStr() { return new Date().toISOString().slice(0, 10); }
