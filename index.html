@@ -6,12 +6,12 @@
 <title>EVANcharts | Lee Heeseung Solo Era</title>
 <meta name="description" content="Fan streaming tracker para EVAN (Lee Heeseung) - Solo Era. Datos en tiempo real desde YouTube API + seguimiento manual de Spotify.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 /* ========== EVANCHARTS — LUXURY EDITORIAL REDESIGN ========== */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
   --bg:          #080808;
@@ -29,7 +29,9 @@
   --border:      rgba(200,168,75,0.12);
   --border-hi:   rgba(200,168,75,0.4);
   --green:       #52c77a;
-  --red:         #e05555;
+  --red:         #ef3b56;
+  --red-dim:     #8c1f30;
+  --red-glow:    rgba(239,59,86,0.18);
   --spotify:     #1db954;
   --apple:       #fc3c44;
   --nav-h:       60px;
@@ -41,6 +43,7 @@
   --admin-bg:    #050505;
   --admin-card:  #0f0f0f;
   --admin-item:  #141414;
+  --hero-overlay: 8,8,8;
 }
 [data-theme="white"] {
   --bg:#f7f4ef; --bg-card:#ffffff; --bg-raised:#f0ece4; --bg-hover:#e8e4dc;
@@ -50,7 +53,8 @@
   --nav-bg:rgba(247,244,239,0.96); --shadow:0 20px 60px rgba(0,0,0,0.1);
   --shadow-sm:0 4px 20px rgba(0,0,0,0.07); --input-bg:#faf8f4;
   --admin-bg:#f0ece4; --admin-card:#ffffff; --admin-item:#f7f4ef;
-  --green:#1a7a40; --red:#c02020;
+  --green:#1a7a40; --red:#d1233c; --red-dim:#f3b8bf; --red-glow:rgba(209,35,60,0.1);
+  --hero-overlay: 247,244,239;
 }
 [data-theme="white"] .goal-song { color:#1a1510 !important; }
 [data-theme="white"] .goal-stat-value { color:var(--gold) !important; }
@@ -66,14 +70,16 @@
 [data-theme="white"] .yt-stat-card { background:#faf8f4; }
 [data-theme="white"] #pm-close { background:rgba(0,0,0,0.08);color:#1a1510; }
 [data-theme="white"] #pm-close:hover { background:rgba(0,0,0,0.15); }
-[data-theme="celeste"] {
-  --bg:#05101e; --bg-card:#0a1a2e; --bg-raised:#0f2240; --bg-hover:#152a4a;
-  --gold:#60a5fa; --gold-light:#93c5fd; --gold-dim:#3b82f6; --gold-glow:rgba(96,165,250,0.18);
-  --gold-subtle:rgba(96,165,250,0.05); --cream:#dbeafe; --cream-dim:#6ea0d0;
-  --cream-muted:#2d5070; --border:rgba(96,165,250,0.14); --border-hi:rgba(96,165,250,0.45);
-  --nav-bg:rgba(5,16,30,0.96); --shadow:0 20px 60px rgba(0,0,0,0.5);
-  --shadow-sm:0 4px 20px rgba(0,0,0,0.3); --input-bg:#06111f;
-  --admin-bg:#05101e; --admin-card:#0a1a2e; --admin-item:#0f2240;
+[data-theme="rojo"] {
+  --bg:#1a0407; --bg-card:#230609; --bg-raised:#2d0a0e; --bg-hover:#3a0d12;
+  --gold:#ff1f3d; --gold-light:#ff5c73; --gold-dim:#b3122a; --gold-glow:rgba(255,31,61,0.2);
+  --gold-subtle:rgba(255,31,61,0.06); --cream:#ffe9ea; --cream-dim:#e0a8ae;
+  --cream-muted:#7a3540; --border:rgba(255,31,61,0.16); --border-hi:rgba(255,31,61,0.5);
+  --nav-bg:rgba(26,4,7,0.96); --shadow:0 20px 60px rgba(0,0,0,0.6);
+  --shadow-sm:0 4px 20px rgba(0,0,0,0.35); --input-bg:#150304;
+  --admin-bg:#1a0407; --admin-card:#230609; --admin-item:#2d0a0e;
+  --red:#ff8a3d; --red-dim:#c9541b; --red-glow:rgba(255,138,61,0.16);
+  --hero-overlay: 26,4,7;
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -113,38 +119,45 @@ nav {
   transition: background 0.3s;
 }
 .nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-style: italic;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
   text-decoration: none;
   color: var(--cream);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
-.nav-logo span { color: var(--gold); font-style: normal; font-weight: 300; }
-.nav-links { display:flex; gap: 2.8rem; }
+.nav-logo span { color: var(--gold); font-weight: 400; }
+.nav-links {
+  display: flex;
+  gap: 0.2rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem;
+}
 .nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   color: var(--cream-muted);
   text-decoration: none;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  transition: color 0.25s;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s, background 0.2s, color 0.2s;
   cursor: pointer;
-  position: relative;
-  padding-bottom: 3px;
+  white-space: nowrap;
 }
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -1px; left: 50%; right: 50%;
-  height: 1px;
-  background: var(--gold);
-  transition: left 0.3s, right 0.3s;
+.nav-links a .nav-ico { font-size: 0.85rem; line-height: 1; }
+.nav-links a:hover { color: var(--cream); background: var(--bg-hover); }
+.nav-links a.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--red), var(--red-dim));
+  box-shadow: 0 4px 14px var(--red-glow);
 }
-.nav-links a:hover, .nav-links a.active { color: var(--cream); }
-.nav-links a:hover::after, .nav-links a.active::after { left:0; right:0; }
+.nav-links a.active:hover { background: linear-gradient(135deg, var(--red), var(--red-dim)); }
 .nav-right { display:flex; align-items:center; gap:1rem; }
 .admin-indicator { display:flex;align-items:center;gap:0.4rem;font-size:0.65rem;color:var(--cream-muted); }
 .admin-dot { width:5px;height:5px;border-radius:50%;background:var(--cream-muted); }
@@ -159,22 +172,24 @@ nav {
   min-height: 95vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
-  padding: 6rem 2rem 5rem;
+  text-align: left;
+  padding: 6rem 3rem 5rem;
   overflow: hidden;
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
 }
+.hero-content { max-width: 720px; width: 100%; }
 .hero::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(180deg,
-    rgba(8,8,8,0.3) 0%,
-    rgba(8,8,8,0.6) 50%,
-    rgba(8,8,8,1) 100%);
+  background: linear-gradient(100deg,
+    rgba(var(--hero-overlay),0.94) 0%,
+    rgba(var(--hero-overlay),0.75) 32%,
+    rgba(var(--hero-overlay),0.35) 62%,
+    rgba(var(--hero-overlay),0.55) 100%);
   z-index: 0;
   pointer-events: none;
 }
@@ -190,6 +205,17 @@ nav {
   pointer-events: none;
 }
 .hero > * { position: relative; z-index: 2; }
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  z-index: -1;
+  display: none;
+  pointer-events: none;
+}
 
 .hero-tag {
   font-size: 0.58rem;
@@ -205,12 +231,12 @@ nav {
   display: inline-block;
 }
 .hero h1 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(4rem, 12vw, 9rem);
-  font-weight: 300;
-  line-height: 0.9;
+  font-weight: 700;
+  line-height: 0.88;
   color: var(--cream);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin-bottom: 0;
 }
 .hero h1 .accent {
@@ -241,7 +267,7 @@ nav {
   font-size: 0.7rem;
   color: var(--cream-dim);
   backdrop-filter: blur(4px);
-  background: rgba(8,8,8,0.5);
+  background: rgba(var(--hero-overlay),0.5);
   letter-spacing: 1px;
 }
 .dot-live {
@@ -256,7 +282,7 @@ nav {
 
 .stream-cta {
   display: flex; gap: 0.6rem;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 2.8rem;
   flex-wrap: wrap;
 }
@@ -270,7 +296,7 @@ nav {
   text-decoration: none;
   border: 1px solid var(--border);
   color: var(--cream-dim);
-  background: rgba(8,8,8,0.6);
+  background: rgba(var(--hero-overlay),0.6);
   backdrop-filter: blur(8px);
   letter-spacing: 1px;
   transition: all 0.3s;
@@ -297,13 +323,12 @@ section {
   margin-bottom: 2.5rem;
 }
 .section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  font-style: italic;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
   color: var(--cream);
   white-space: nowrap;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 .section-line {
   flex: 1;
@@ -317,45 +342,46 @@ section {
 .goal-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1.2rem 1.4rem 1.4rem;
-  position: relative;
+  border-radius: 16px;
   overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
-.goal-card::before {
-  content: '';
+.goal-card:hover { transform: translateY(-3px); border-color: var(--border-hi); }
+.goal-cover-photo { position: relative; width: 100%; aspect-ratio: 4/3; background: var(--bg-raised); overflow: hidden; }
+.goal-cover-photo img { width:100%;height:100%;object-fit:cover;display:block; }
+.goal-cover-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--cream-muted); }
+.goal-badge {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--green, #52c77a), transparent);
+  top: 0.85rem; left: 0.85rem;
+  background: rgba(8,8,8,0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--cream);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
 }
-.goal-inner { display:flex;align-items:center;gap:1.1rem; }
-.goal-cover {
-  width: 56px; height: 56px;
-  flex-shrink: 0;
-  background: var(--bg-raised);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  display: flex; align-items:center; justify-content:center;
-}
-.goal-cover img { width:100%;height:100%;object-fit:cover; }
-.goal-cover-placeholder { font-size:1.4rem; }
-.goal-label { font-size:0.55rem;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.2rem; }
-.goal-song { font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;font-style:italic;color:var(--cream);line-height:1.2; }
-.goal-current { font-family:'DM Mono',monospace;font-size:1.6rem;color:var(--cream);font-weight:400;line-height:1;margin-top:0.15rem; }
-.goal-target-txt { font-size:0.65rem;color:var(--cream-muted);display:flex;align-items:center;gap:0.3rem;margin-top:0.2rem; }
-.goal-target-txt span { color:var(--gold);font-family:'DM Mono',monospace; }
-.goal-bar-wrap { height:4px;background:rgba(255,255,255,0.06);overflow:hidden;border-radius:2px; }
-.goal-bar { height:100%;background:linear-gradient(90deg,#1a7a40,#52c77a);transition:width 1.2s cubic-bezier(0.4,0,0.2,1);border-radius:2px; }
-.goal-bottom { display:flex;align-items:center;justify-content:space-between; }
-.goal-remaining { font-size:0.65rem;color:var(--cream-muted); }
-.goal-remaining span { color:var(--green);font-family:'DM Mono',monospace;font-weight:500; }
-.goal-pct { font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--gold);font-weight:500; }
+.goal-body { padding: 1.1rem 1.2rem 1.3rem; display:flex; flex-direction:column; gap:0.7rem; }
+.goal-song { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--cream); line-height:1.25; }
+.goal-numbers { font-family:'DM Mono',monospace; font-size:0.95rem; color:var(--red); font-weight:500; letter-spacing:-0.01em; }
+.goal-numbers .goal-target-num { opacity:0.5; }
+.goal-bar-wrap { height:6px; background:rgba(255,255,255,0.07); overflow:hidden; border-radius:999px; }
+.goal-bar { height:100%; background:linear-gradient(90deg, var(--red-dim), var(--red)); border-radius:999px; transition:width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.goal-bottom { display:flex; align-items:center; justify-content:space-between; }
+.goal-remaining { font-size:0.66rem; color:var(--cream-muted); display:flex; align-items:center; gap:0.35rem; }
+.goal-remaining span { color:var(--cream-dim); font-family:'DM Mono',monospace; font-weight:500; }
+.goal-pct { font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--red); font-weight:700; }
 .goal-stat { text-align:center; }
 .goal-stat-value { font-family:'DM Mono',monospace;font-size:1.5rem;color:var(--gold);line-height:1; }
 .goal-stat-label { font-size:0.58rem;color:var(--cream-muted);text-transform:uppercase;letter-spacing:2px;margin-top:0.4rem; }
+#goals-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1.2rem; }
+#home-goal-card .goal-card { max-width: 340px; }
 
 /* ══════════════════════════════════════════
    PLAYLISTS
@@ -522,7 +548,7 @@ section {
 .sp-charts-wrap { background:var(--bg-card);border:1px solid rgba(29,185,84,0.15);padding:1.8rem;margin-bottom:1.5rem; }
 .sp-charts-header { display:flex;align-items:center;gap:0.7rem;margin-bottom:1.5rem; }
 .sp-charts-logo { width:26px;height:26px;background:var(--spotify);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-.sp-charts-title { font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;font-style:italic;color:var(--spotify); }
+.sp-charts-title { font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;color:var(--spotify); }
 .sp-charts-section-label { font-size:0.6rem;color:var(--cream-muted);text-transform:uppercase;letter-spacing:2.5px;font-weight:600;margin-bottom:0.6rem; }
 .sp-type-tabs { display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.2rem; }
 .sp-type-tab { padding:0.35rem 1rem;font-size:0.68rem;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--cream-muted);background:transparent;font-family:'Inter',sans-serif;transition:all 0.2s;letter-spacing:0.5px; }
@@ -553,7 +579,7 @@ section {
 ══════════════════════════════════════════ */
 .apple-wrap { background:var(--bg-card);border:1px solid var(--border);padding:1.8rem;margin-bottom:1rem; }
 .apple-top-bar { display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.6rem; }
-.apple-logo-title { display:flex;align-items:center;gap:.5rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;font-style:italic;color:var(--cream); }
+.apple-logo-title { display:flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;color:var(--cream); }
 .apple-meta { display:flex;align-items:center;gap:.6rem;font-size:.6rem;color:var(--cream-muted); }
 .apple-refresh-btn { background:transparent;border:1px solid var(--border);color:var(--cream-dim);font-size:.65rem;padding:.22rem .7rem;cursor:pointer;transition:.2s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:.3rem; }
 .apple-refresh-btn:hover { border-color:var(--apple);color:var(--apple); }
@@ -598,7 +624,7 @@ section {
 .theme-dot,.td { width:8px;height:8px;border-radius:50%;display:inline-block; }
 .td-black { background:#111;border:1px solid #555; }
 .td-white { background:#f5f5f5;border:1px solid #bbb; }
-.td-celeste { background:#60a5fa; }
+.td-rojo { background:#ff1f3d; }
 .theme-dropdown { display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--bg-card);border:1px solid var(--border);min-width:128px;z-index:100;overflow:hidden; }
 .theme-selector:hover .theme-dropdown,.theme-dropdown.open { display:block; }
 .theme-option { display:flex;align-items:center;gap:0.6rem;padding:0.6rem 1rem;font-size:0.75rem;color:var(--cream-dim);cursor:pointer;transition:background 0.15s; }
@@ -616,11 +642,11 @@ section {
 .admin-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:300;align-items:center;justify-content:center; }
 .admin-overlay.open { display:flex; }
 .admin-modal { background:var(--bg-card);border:1px solid var(--border);width:min(420px,90vw);padding:2rem; }
-.admin-modal h2 { font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.4rem;font-weight:400;font-style:italic;margin-bottom:1.2rem; }
+.admin-modal h2 { font-family:'Space Grotesk',sans-serif;color:var(--gold);font-size:1.3rem;font-weight:600;margin-bottom:1.2rem; }
 .admin-panel { display:none;position:fixed;inset:0;background:var(--admin-bg);z-index:250;overflow-y:auto; }
 .admin-panel.open { display:block; }
 .admin-nav { background:var(--bg-card);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10; }
-.admin-nav h1 { font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;font-style:italic;color:var(--gold); }
+.admin-nav h1 { font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--gold); }
 .admin-tabs { display:flex;gap:0.4rem;padding:1.5rem 2rem 0;flex-wrap:wrap; }
 .admin-tab { background:transparent;border:1px solid var(--border);padding:0.38rem 1rem;color:var(--cream-muted);cursor:pointer;font-size:0.7rem;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.3px; }
 .admin-tab.active { background:var(--gold);color:#080808;border-color:var(--gold);font-weight:600; }
@@ -629,7 +655,7 @@ section {
 .admin-section { display:none; }
 .admin-section.active { display:block; }
 .admin-card { background:var(--admin-card);border:1px solid var(--border);padding:1.5rem;margin-bottom:1.2rem; }
-.admin-card h3 { font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;font-style:italic;color:var(--cream);margin-bottom:1rem; }
+.admin-card h3 { font-family:'Space Grotesk',sans-serif;font-size:0.95rem;font-weight:600;color:var(--cream);margin-bottom:1rem; }
 .admin-list-item { background:var(--admin-item);padding:0.75rem 1rem;display:flex;align-items:center;gap:1rem;margin-bottom:0.4rem;border:1px solid transparent;transition:border-color 0.15s; }
 .admin-list-item:hover { border-color:var(--border); }
 .ali-info { flex:1;min-width:0; }
@@ -734,7 +760,8 @@ footer a:hover { color:var(--gold); }
 ══════════════════════════════════════════ */
 @media (max-width:700px) {
   nav { padding:0 1.2rem; }
-  .nav-links { display:none;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);padding:1rem;gap:0.5rem; }
+  .nav-links { display:none;flex-direction:column;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);border-radius:0;padding:1rem;gap:0.3rem; }
+  .nav-links a { justify-content:flex-start;border-radius:8px; }
   .nav-links.open { display:flex; }
   .nav-mobile-btn { display:block; }
   .hero { min-height:auto;padding:4.5rem 1.5rem 3.5rem; }
@@ -757,13 +784,13 @@ footer a:hover { color:var(--gold); }
 <nav>
   <a class="nav-logo" href="#" onclick="showPage('home')">EVAN<span>charts</span></a>
   <div class="nav-links" id="nav-links">
-    <a class="active" onclick="showPage('home',this)">Home</a>
-    <a onclick="showPage('spotify',this)">Spotify</a>
-    <a onclick="showPage('apple',this)">Apple Music</a>
-    <a onclick="showPage('youtube',this)">YouTube</a>
-    <a onclick="showPage('charts',this)">Charts</a>
-    <a onclick="showPage('goals',this)">Goals</a>
-    <a onclick="showPage('gallery',this)">Avisos</a>
+    <a class="active" onclick="showPage('home',this)"><span class="nav-ico">🏠</span>Home</a>
+    <a onclick="showPage('spotify',this)"><span class="nav-ico">🎧</span>Spotify</a>
+    <a onclick="showPage('apple',this)"><span class="nav-ico">🍎</span>Apple Music</a>
+    <a onclick="showPage('youtube',this)"><span class="nav-ico">▶</span>YouTube</a>
+    <a onclick="showPage('charts',this)"><span class="nav-ico">📊</span>Charts</a>
+    <a onclick="showPage('goals',this)"><span class="nav-ico">🎯</span>Goals</a>
+    <a onclick="showPage('gallery',this)"><span class="nav-ico">📣</span>Avisos</a>
   </div>
   <div class="nav-right">
     <div class="admin-indicator" id="admin-indicator" style="display:none">
@@ -791,7 +818,7 @@ footer a:hover { color:var(--gold); }
       <div class="theme-dropdown">
         <div class="theme-option active" id="topt-black" onclick="setTheme('black')"><span class="td td-black"></span> Black</div>
         <div class="theme-option" id="topt-white" onclick="setTheme('white')"><span class="td td-white"></span> White</div>
-        <div class="theme-option" id="topt-celeste" onclick="setTheme('celeste')"><span class="td td-celeste"></span> Celeste</div>
+        <div class="theme-option" id="topt-rojo" onclick="setTheme('rojo')"><span class="td td-rojo"></span> Rojo</div>
       </div>
     </div>
     <button class="btn btn-ghost btn-sm" id="admin-btn" onclick="openAdminLogin()" style="display:none">⚙️ Admin</button>
@@ -802,19 +829,22 @@ footer a:hover { color:var(--gold); }
 <!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
-    <div class="hero-tag" id="hero-tag">EVAN // LEE HEESEUNG · SOLO ERA</div>
-    <h1>EVAN CHARTS<span class="accent">Solo Era · Lee Heeseung</span></h1>
-    <p class="hero-sub">Streaming hub | Fan page</p>
-    <div class="hero-debut">
-      <div class="dot-live"></div>
-      <span id="debut-text">Lee Heeseung · Solo Era · Fan Tracker</span>
-    </div>
-    <div class="stream-cta">
-      <a href="#" id="btn-spotify" target="_blank" class="stream-btn">🎵 Spotify</a>
-      <a href="#" id="btn-youtube" target="_blank" class="stream-btn">▶ YouTube</a>
-      <a href="#" id="btn-applemusic" target="_blank" class="stream-btn">🎶 Apple Music</a>
-      <a href="https://weverse.io/enhypen/feed" id="btn-weverse" target="_blank" class="stream-btn">💬 Weverse</a>
-      <a href="https://www.instagram.com/enhypen" id="btn-instagram" target="_blank" class="stream-btn">📸 Instagram</a>
+    <video class="hero-bg-video" id="hero-bg-video" autoplay muted loop playsinline></video>
+    <div class="hero-content">
+      <div class="hero-tag" id="hero-tag">EVAN // LEE HEESEUNG · SOLO ERA</div>
+      <h1>EVAN CHARTS<span class="accent">Solo Era · Lee Heeseung</span></h1>
+      <p class="hero-sub">Streaming hub | Fan page</p>
+      <div class="hero-debut">
+        <div class="dot-live"></div>
+        <span id="debut-text">Lee Heeseung · Solo Era · Fan Tracker</span>
+      </div>
+      <div class="stream-cta">
+        <a href="#" id="btn-spotify" target="_blank" class="stream-btn">🎵 Spotify</a>
+        <a href="#" id="btn-youtube" target="_blank" class="stream-btn">▶ YouTube</a>
+        <a href="#" id="btn-applemusic" target="_blank" class="stream-btn">🎶 Apple Music</a>
+        <a href="https://weverse.io/enhypen/feed" id="btn-weverse" target="_blank" class="stream-btn">💬 Weverse</a>
+        <a href="https://www.instagram.com/enhypen" id="btn-instagram" target="_blank" class="stream-btn">📸 Instagram</a>
+      </div>
     </div>
   </div>
   <section>
@@ -1366,7 +1396,7 @@ footer a:hover { color:var(--gold); }
     </div>
 
     <!-- Configuración -->
-    <div class="admin-section" id="tab-config"><div class="admin-card"><h3>Textos del hero</h3><div class="form-group"><label>Tag</label><input class="input" id="cfg-hero_tag" placeholder="EVAN // SOLO ERA ..."></div><div class="form-group"><label>Texto debut</label><input class="input" id="cfg-debut_text" placeholder="Lee Heeseung · Solo Era"></div><div class="form-group"><label>🖼️ Imagen de fondo del hero (URL)</label><input class="input" id="cfg-hero_bg_url" placeholder="https://...jpg"><p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.4rem">Pega la URL directa de la imagen. Recomendado: 1920x1080px o más. Puedes subir a <a href="https://imgbb.com" target="_blank" style="color:var(--primary-red)">imgbb.com</a> gratis.</p></div><div id="hero-bg-preview" style="display:none;margin-top:0.8rem;border-radius:12px;overflow:hidden;border:1px solid var(--border-dim);max-height:160px"><img id="hero-bg-img-preview" style="width:100%;height:160px;object-fit:cover;object-position:top" src="" alt="preview"></div><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="previewHeroBg()">👁️ Previsualizar</button></div><div class="admin-card"><h3>Links sociales</h3><div class="form-group"><label>🎵 Spotify URL</label><input class="input" id="cfg-spotify_url"></div><div class="form-group"><label>▶ YouTube</label><input class="input" id="cfg-youtube_url"></div><div class="form-group"><label>🎶 Apple Music</label><input class="input" id="cfg-applemusic_url"></div><div class="form-group"><label>💬 Weverse</label><input class="input" id="cfg-weverse_url"></div><div class="form-group"><label>📸 Instagram</label><input class="input" id="cfg-instagram_url"></div><div class="form-group"><label>🐦 Twitter/X</label><input class="input" id="cfg-twitter_url"></div><button class="btn" onclick="saveConfig()">Guardar configuración</button></div></div>
+    <div class="admin-section" id="tab-config"><div class="admin-card"><h3>Textos del hero</h3><div class="form-group"><label>Tag</label><input class="input" id="cfg-hero_tag" placeholder="EVAN // SOLO ERA ..."></div><div class="form-group"><label>Texto debut</label><input class="input" id="cfg-debut_text" placeholder="Lee Heeseung · Solo Era"></div><div class="form-group"><label>🖼️ Imagen de fondo del hero (URL)</label><input class="input" id="cfg-hero_bg_url" placeholder="https://...jpg"><p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.4rem">Pega la URL directa de la imagen. Recomendado: 1920x1080px o más. Puedes subir a <a href="https://imgbb.com" target="_blank" style="color:var(--primary-red)">imgbb.com</a> gratis.</p></div><div id="hero-bg-preview" style="display:none;margin-top:0.8rem;border-radius:12px;overflow:hidden;border:1px solid var(--border-dim);max-height:160px"><img id="hero-bg-img-preview" style="width:100%;height:160px;object-fit:cover;object-position:top" src="" alt="preview"></div><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="previewHeroBg()">👁️ Previsualizar</button></div><div class="admin-card"><h3>🎬 Video de fondo del hero (opcional)</h3><div class="form-group"><label>Video (URL directa .mp4)</label><input class="input" id="cfg-hero_bg_video_url" placeholder="https://.../fondo.mp4"><p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.4rem">Si pones un video, se reproduce en loop y silenciado sobre la imagen de fondo. Recomendado: clip corto de ~30s, formato MP4 (H.264), peso liviano (idealmente menos de 15-20MB) para que cargue rápido. Deja el campo vacío para usar solo la imagen. Puedes alojar el archivo en <a href="https://supabase.com" target="_blank" style="color:var(--primary-red)">Supabase Storage</a>, Cloudinary o cualquier host que te dé un link directo al .mp4.</p></div><div id="hero-bg-video-preview" style="display:none;margin-top:0.8rem;border-radius:12px;overflow:hidden;border:1px solid var(--border-dim);max-height:160px"><video id="hero-bg-video-preview-el" style="width:100%;height:160px;object-fit:cover" muted loop autoplay playsinline></video></div><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="previewHeroVideo()">👁️ Previsualizar</button><button class="btn btn-ghost btn-sm" style="margin-top:0.6rem" onclick="clearHeroVideo()">🗑️ Quitar video</button></div><div class="admin-card"><h3>Links sociales</h3><div class="form-group"><label>🎵 Spotify URL</label><input class="input" id="cfg-spotify_url"></div><div class="form-group"><label>▶ YouTube</label><input class="input" id="cfg-youtube_url"></div><div class="form-group"><label>🎶 Apple Music</label><input class="input" id="cfg-applemusic_url"></div><div class="form-group"><label>💬 Weverse</label><input class="input" id="cfg-weverse_url"></div><div class="form-group"><label>📸 Instagram</label><input class="input" id="cfg-instagram_url"></div><div class="form-group"><label>🐦 Twitter/X</label><input class="input" id="cfg-twitter_url"></div><button class="btn" onclick="saveConfig()">Guardar configuración</button></div></div>
 
     <!-- Imágenes -->
     <div class="admin-section" id="tab-images">
@@ -1425,6 +1455,11 @@ async function loadConfig(){
     let inp = document.getElementById('cfg-hero_bg_url');
     if(inp) inp.value = cfg.hero_bg_url.trim();
   }
+  if(cfg.hero_bg_video_url && cfg.hero_bg_video_url.trim()){
+    applyHeroVideo(cfg.hero_bg_video_url.trim());
+    let inp = document.getElementById('cfg-hero_bg_video_url');
+    if(inp) inp.value = cfg.hero_bg_video_url.trim();
+  }
 }
 function applyHeroBg(url){ const hero = document.querySelector('.hero'); if(hero && url) hero.style.backgroundImage = 'url(' + url + ')'; }
 function previewHeroBg(){
@@ -1433,6 +1468,26 @@ function previewHeroBg(){
   const preview = document.getElementById('hero-bg-preview');
   const img = document.getElementById('hero-bg-img-preview');
   img.src = url; preview.style.display = 'block'; applyHeroBg(url); showToast('Vista previa aplicada al hero');
+}
+function applyHeroVideo(url){
+  const vid = document.getElementById('hero-bg-video');
+  if(!vid) return;
+  if(url){ vid.src = url; vid.style.display = 'block'; vid.play().catch(()=>{}); }
+  else { vid.pause(); vid.removeAttribute('src'); vid.load(); vid.style.display = 'none'; }
+}
+function previewHeroVideo(){
+  const url = document.getElementById('cfg-hero_bg_video_url').value.trim();
+  if(!url){ showToast('Escribe una URL primero', true); return; }
+  const preview = document.getElementById('hero-bg-video-preview');
+  const vidPrev = document.getElementById('hero-bg-video-preview-el');
+  vidPrev.src = url; preview.style.display = 'block'; applyHeroVideo(url); showToast('Vista previa de video aplicada al hero');
+}
+function clearHeroVideo(){
+  document.getElementById('cfg-hero_bg_video_url').value = '';
+  applyHeroVideo('');
+  const preview = document.getElementById('hero-bg-video-preview');
+  if(preview) preview.style.display = 'none';
+  showToast('Video quitado, se usará la imagen de fondo');
 }
 
 // ========== GOALS ==========
@@ -1443,22 +1498,19 @@ async function loadGoalsPublic(){
   const renderGoalCard = (g) => {
     const p = Math.min(100, Math.round(g.current / g.target * 100));
     const cover = g.image_url
-      ? `<div class="goal-cover"><img src="${g.image_url}" onerror="this.parentElement.innerHTML='<span class=goal-cover-placeholder>🎵</span>'" alt=""></div>`
-      : `<div class="goal-cover"><span class="goal-cover-placeholder">🎵</span></div>`;
+      ? `<img src="${g.image_url}" onerror="this.parentElement.innerHTML='<div class=goal-cover-placeholder>🎵</div>'" alt="">`
+      : `<div class="goal-cover-placeholder">🎵</div>`;
     return `<div class="goal-card">
-      <div class="goal-inner">
+      <div class="goal-cover-photo">
         ${cover}
-        <div style="flex:1;min-width:0">
-          <div class="goal-label">Goal</div>
-          <div class="goal-song">${escapeHtml(g.song)}</div>
-          <div class="goal-current">${fmt(g.current)}</div>
-          <div class="goal-target-txt">/ <span>${fmt(g.target)}</span> · ${g.platform}</div>
-        </div>
+        <div class="goal-badge">Goal</div>
       </div>
-      <div>
+      <div class="goal-body">
+        <div class="goal-song">${escapeHtml(g.song)}</div>
+        <div class="goal-numbers">${fmt(g.current)} <span class="goal-target-num">/ ${fmt(g.target)}</span></div>
         <div class="goal-bar-wrap"><div class="goal-bar" style="width:${p}%"></div></div>
-        <div class="goal-bottom" style="margin-top:0.5rem">
-          <div class="goal-remaining">▸ <span>${fmt(Math.max(0,g.target-g.current))}</span> remaining</div>
+        <div class="goal-bottom">
+          <div class="goal-remaining">🚩 <span>${fmt(Math.max(0,g.target-g.current))}</span> remaining</div>
           <div class="goal-pct">${p}%</div>
         </div>
       </div>
@@ -2509,7 +2561,7 @@ async function deleteGoal(id){ if(confirm('¿Eliminar meta?')){ await sb.from('g
 async function addPlaylist(){ let name=document.getElementById('np-name').value.trim(); let description=document.getElementById('np-desc').value.trim(); let url=document.getElementById('np-url').value.trim(); let platform=document.getElementById('np-platform').value; let icon=document.getElementById('np-icon').value.trim()||platformIcon(platform); if(!name){ showToast('Nombre requerido',true); return; } let {data:exist}=await sb.from('playlists').select('sort_order').order('sort_order',{ascending:false}).limit(1); let sort=exist&&exist[0]?exist[0].sort_order+1:1; await sb.from('playlists').insert({name,description,url,platform,icon,sort_order:sort}); showToast('Playlist agregada'); document.getElementById('np-name').value=''; document.getElementById('np-desc').value=''; document.getElementById('np-url').value=''; document.getElementById('np-icon').value=''; await loadAdminData(); await loadPlaylistsPublic(); }
 function editPlaylist(id,name,desc,url,platform){ let newUrl=prompt(`Editar URL de "${name}"`,url); if(newUrl===null) return; sb.from('playlists').update({url:newUrl}).eq('id',id).then(async()=>{ showToast('Playlist actualizada'); await loadAdminData(); await loadPlaylistsPublic(); }); }
 async function deletePlaylist(id){ if(confirm('¿Eliminar playlist?')){ await sb.from('playlists').delete().eq('id',id); showToast('Playlist eliminada'); await loadAdminData(); await loadPlaylistsPublic(); } }
-async function saveConfig(){ let keys=['hero_tag','debut_text','hero_bg_url','spotify_url','youtube_url','applemusic_url','weverse_url','instagram_url','twitter_url']; for(let k of keys){ let el=document.getElementById('cfg-'+k); if(el) await sb.from('site_config').upsert({key:k,value:el.value.trim()}); } showToast('Configuración guardada'); await loadConfig(); }
+async function saveConfig(){ let keys=['hero_tag','debut_text','hero_bg_url','hero_bg_video_url','spotify_url','youtube_url','applemusic_url','weverse_url','instagram_url','twitter_url']; for(let k of keys){ let el=document.getElementById('cfg-'+k); if(el) await sb.from('site_config').upsert({key:k,value:el.value.trim()}); } showToast('Configuración guardada'); await loadConfig(); }
 async function saveAdminProfile() {
   const name = document.getElementById('admin-profile-name').value.trim();
   const initials = document.getElementById('admin-profile-initials').value.trim().toUpperCase();
@@ -2914,8 +2966,8 @@ async function saveArtistChartManual() {
   await loadKworbArtist(true);
 }
 // ========== THEME SYSTEM ==========
-const THEME_DOTS = { black: 'td-black', white: 'td-white', celeste: 'td-celeste' };
-const THEME_LABELS = { black: 'Black', white: 'White', celeste: 'Celeste' };
+const THEME_DOTS = { black: 'td-black', white: 'td-white', rojo: 'td-rojo' };
+const THEME_LABELS = { black: 'Black', white: 'White', rojo: 'Rojo' };
 
 function setTheme(theme) {
   const html = document.documentElement;
@@ -2930,7 +2982,7 @@ function setTheme(theme) {
   dot.className = 'theme-dot ' + THEME_DOTS[theme];
   label.textContent = THEME_LABELS[theme];
   // Update active option
-  ['black','white','celeste'].forEach(t => {
+  ['black','white','rojo'].forEach(t => {
     const el = document.getElementById('topt-' + t);
     if (el) el.classList.toggle('active', t === theme);
   });
