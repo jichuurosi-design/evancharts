@@ -1442,6 +1442,8 @@ function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, fun
 async function loadConfig(){
   let {data}=await sb.from('site_config').select('*'); if(!data) return;
   let cfg={}; data.forEach(r=>cfg[r.key]=r.value);
+  console.log('[EVANcharts] site_config cargado:', cfg);
+  console.log('[EVANcharts] hero_bg_video_url:', JSON.stringify(cfg.hero_bg_video_url));
   if(cfg.hero_tag) document.getElementById('hero-tag').innerText=cfg.hero_tag;
   if(cfg.debut_text) document.getElementById('debut-text').innerText=cfg.debut_text;
   if(cfg.spotify_url){ document.getElementById('btn-spotify').href=cfg.spotify_url; document.getElementById('foot-spotify').href=cfg.spotify_url; }
@@ -1456,9 +1458,12 @@ async function loadConfig(){
     if(inp) inp.value = cfg.hero_bg_url.trim();
   }
   if(cfg.hero_bg_video_url && cfg.hero_bg_video_url.trim()){
+    console.log('[EVANcharts] Aplicando video de fondo:', cfg.hero_bg_video_url.trim());
     applyHeroVideo(cfg.hero_bg_video_url.trim());
     let inp = document.getElementById('cfg-hero_bg_video_url');
     if(inp) inp.value = cfg.hero_bg_video_url.trim();
+  } else {
+    console.log('[EVANcharts] No hay hero_bg_video_url guardado (o está vacío) — se usa solo la imagen.');
   }
 }
 function applyHeroBg(url){ const hero = document.querySelector('.hero'); if(hero && url) hero.style.backgroundImage = 'url(' + url + ')'; }
