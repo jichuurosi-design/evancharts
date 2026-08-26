@@ -1787,474 +1787,14 @@ async function deleteSpotifySong(id) {
 }
 
 // ========== BULK UPDATE & DISCOGRAPHY ==========
-const ENHYPEN_DISCOGRAPHY = [
-  { title: "Bite Me", streams: 503978514, daily: 268528, spotify_url: "https://open.spotify.com/track/7mpdNiaQvygj2rHoxkzMfa" },
-  { title: "FEVER", streams: 472645309, daily: 148632, spotify_url: "https://open.spotify.com/track/7FfDVXuFy0RB86yEH0p9hP" },
-  { title: "Drunk-Dazed", streams: 440333695, daily: 188968, spotify_url: "https://open.spotify.com/track/1wcr8DjnN59Awev8nnKpQ4" },
-  { title: "Polaroid Love", streams: 380622064, daily: 103241, spotify_url: "https://open.spotify.com/track/4IRAHnkMlMrAGDIMQ2wFnz" },
-  { title: "Given-Taken", streams: 267049673, daily: 91124, spotify_url: "https://open.spotify.com/track/1RxXIuGnfb9YvPZbUPFmGG" },
-  { title: "XO (Only If You Say Yes)", streams: 213377949, daily: 202264, spotify_url: "https://open.spotify.com/track/6F09Gf0jqHdsWS2IYUKvaB" },
-  { title: "Sweet Venom", streams: 201282139, daily: 92857, spotify_url: "https://open.spotify.com/track/0YDJpkTxEYuTKz2tNDL0eW" },
-  { title: "SHOUT OUT", streams: 167147676, daily: 92335, spotify_url: "https://open.spotify.com/track/5Z2DNRAhs6r4VdINVkRhYY" },
-  { title: "Future Perfect (Pass the MIC)", streams: 166316375, daily: 44768, spotify_url: "https://open.spotify.com/track/4iJLPqZaalWbSdtsDOEMHG" },
-  { title: "No Doubt", streams: 164606792, daily: 159897, spotify_url: "https://open.spotify.com/track/44hqFxUWsADWewEJELnncj" },
-  { title: "Tamed-Dashed", streams: 162560860, daily: 41258, spotify_url: "https://open.spotify.com/track/1uHvYJOAytUeYJAkDrpqnj" },
-  { title: "Moonstruck", streams: 158794291, daily: 196332, spotify_url: "https://open.spotify.com/track/2yFPGQLRHMJbMbDDaPlN2A" },
-  { title: "Brought The Heat Back", streams: 144285989, daily: 133386, spotify_url: "https://open.spotify.com/track/1gqvV5gDNcJlNMoHo5gJBX" },
-  { title: "Blessed-Cursed", streams: 141916230, daily: 37935, spotify_url: "https://open.spotify.com/track/3X6n6rHpS7BZv7Y3yEjbBa" },
-  { title: "Go Big or Go Home", streams: 140918756, daily: 76249, spotify_url: "https://open.spotify.com/track/3b4gWGVlmC2MqHELQwjlaE" },
-  { title: "Fatal Trouble", streams: 113651498, daily: 121027, spotify_url: "https://open.spotify.com/track/53sDnvNZNq2vvQmD9SxvWL" },
-  { title: "CRIMINAL LOVE", streams: 112106012, daily: 80352, spotify_url: "https://open.spotify.com/track/6XmPQvSbS4LT84f79wKcyt" },
-  { title: "Bad Desire (With or Without You)", streams: 106361693, daily: 101969, spotify_url: "https://open.spotify.com/track/38pEX03GFZ0PfFDaOrpKOM" },
-  { title: "Let Me In (20 CUBE)", streams: 104082761, daily: 25755, spotify_url: "https://open.spotify.com/track/1pUr3P0Mq3LxqMSTbMJBSS" },
-  { title: "Sacrifice (Eat Me Up)", streams: 100514641, daily: 47842, spotify_url: "https://open.spotify.com/track/4RhUxLekRV0YVtqSFlxfJI" },
-  { title: "ParadoXXX Invasion", streams: 94817374, daily: 29327, spotify_url: "https://open.spotify.com/track/0X1mR6gunFBMWqKR0k78QX" },
-  { title: "Bills", streams: 92198966, daily: 49984, spotify_url: "https://open.spotify.com/track/6mzIMGZYaNJKKXUrjsLHOW" },
-  { title: "10 Months", streams: 90472383, daily: 23939, spotify_url: "https://open.spotify.com/track/4W7sXyPpTMLZuWMO6UTBPN" },
-  { title: "Not For Sale", streams: 88800069, daily: 23648, spotify_url: "https://open.spotify.com/track/1HaB7yPBTZLkY0GVNXjl0x" },
-  { title: "Chaconne", streams: 88422105, daily: 49373, spotify_url: "https://open.spotify.com/track/6cVD7akJMxoMTYyP5kJHKr" },
-  { title: "Just A Little Bit", streams: 82945825, daily: 22722, spotify_url: "https://open.spotify.com/track/5NKDVZpA8I1DlxKfm1HKZM" },
-  { title: "Upper Side Dreamin’", streams: 77059258, daily: 23312, spotify_url: "" },
-  { title: "Still Monster", streams: 70651540, daily: 46843, spotify_url: "https://open.spotify.com/track/5sn9jfiBUvJAlxlDNwQZEV" },
-  { title: "Flicker", streams: 70528060, daily: 18647, spotify_url: "https://open.spotify.com/track/5DjFrXNqFBSQkCdUB9Tccd" },
-  { title: "Loose", streams: 64133129, daily: 53889, spotify_url: "https://open.spotify.com/track/03HHGNtjpS5K6fRcwlX3Sx" },
-  { title: "Outside", streams: 63226138, daily: 93278, spotify_url: "https://open.spotify.com/track/0IXWLMBZeK33mOb044Sxu6" },
-  { title: "TFW (That Feeling When)", streams: 62607840, daily: 19674, spotify_url: "https://open.spotify.com/track/3MOqkT1nKNBVkK5lIPfFZt" },
-  { title: "Knife", streams: 61027532, daily: 237505, spotify_url: "https://open.spotify.com/track/0TKCUjfV3YGuY99MxCKM5w" },
-  { title: "One In A Billion", streams: 59644950, daily: 31670, spotify_url: "https://open.spotify.com/track/4mWFUuIRTFpYlhODGeB9Ew" },
-  { title: "Mixed Up", streams: 59144005, daily: 16764, spotify_url: "https://open.spotify.com/track/2H8YRkSqLB2jHnEFJNAOVo" },
-  { title: "Attention, please!", streams: 57816494, daily: 15365, spotify_url: "https://open.spotify.com/track/5cIJFgQtBH3tXGFSPQcRBg" },
-  { title: "Bad Desire (With or Without You) (English Ver.)", streams: 57473345, daily: 80398, spotify_url: "https://open.spotify.com/track/4N8IFzGERNBWoQyzYVYEoJ" },
-  { title: "Blockbuster feat. YEONJUN of TOMORROW X TOGETHER", streams: 56286001, daily: 21671, spotify_url: "" },
-  { title: "Fate", streams: 56199016, daily: 47102, spotify_url: "" },
-  { title: "Your Eyes Only", streams: 54062775, daily: 44231, spotify_url: "" },
-  { title: "Daydream", streams: 54047017, daily: 49211, spotify_url: "" },
-  { title: "Highway 1009", streams: 51228757, daily: 54660, spotify_url: "https://open.spotify.com/track/3HpJW5tQE2jxN3VQkL0ADa" },
-  { title: "I NEED U - Spotify Singles", streams: 48996357, daily: 14306, spotify_url: "" },
-  { title: "Hey Tayo (Tayo Opening Theme Song)", streams: 47829005, daily: 12584, spotify_url: "" },
-  { title: "Helium", streams: 45134444, daily: 112702, spotify_url: "https://open.spotify.com/track/48jRAABr5TxjWHvoNWClGG" },
-  { title: "BLOSSOM", streams: 44781854, daily: 31193, spotify_url: "" },
-  { title: "What Makes You Beautiful", streams: 44184665, daily: 18960, spotify_url: "" },
-  { title: "Paranormal", streams: 43440864, daily: 43001, spotify_url: "" },
-  { title: "Sweet Venom (English Ver.)", streams: 43236299, daily: 18294, spotify_url: "" },
-  { title: "Teeth", streams: 43118369, daily: 33718, spotify_url: "" },
-  { title: "Hundred Broken Hearts", streams: 40774201, daily: 33496, spotify_url: "" },
-  { title: "Orange Flower (You Complete Me)", streams: 40108080, daily: 24115, spotify_url: "https://open.spotify.com/track/3E6KyQ93bqlBfRZFRZCTwp" },
-  { title: "I Need The Light", streams: 39827900, daily: 16904, spotify_url: "" },
-  { title: "Blind", streams: 39169541, daily: 31229, spotify_url: "" },
-  { title: "Karma", streams: 36931990, daily: 17204, spotify_url: "" },
-  { title: "Always", streams: 36900064, daily: 11141, spotify_url: "" },
-  { title: "Big Girls Don't Cry", streams: 36469546, daily: 145923, spotify_url: "https://open.spotify.com/track/0NsmpxrKw7ZWGKjnWVJtm5" },
-  { title: "Foreshadow", streams: 35755687, daily: 13504, spotify_url: "https://open.spotify.com/track/4EL81sOPVVPBCd0g8iRSAw" },
-  { title: "Lucifer", streams: 35176179, daily: 25708, spotify_url: "" },
-  { title: "Too Close", streams: 33299199, daily: 39607, spotify_url: "https://open.spotify.com/track/6gezrIScVLEnV1szuZxhvA" },
-  { title: "Royalty", streams: 33097637, daily: 28260, spotify_url: "" },
-  { title: "Forget Me Not", streams: 31141132, daily: 8367, spotify_url: "" },
-  { title: "Scream", streams: 31109973, daily: 23049, spotify_url: "" },
-  { title: "No Way Back (Feat. So!YoON!)", streams: 30642694, daily: 116142, spotify_url: "https://open.spotify.com/track/6u7J7OH56kiN2A7Pfv5D0i" },
-  { title: "XO (Only If You Say Yes) (English Ver.) Feat. JVKE", streams: 28723393, daily: 20960, spotify_url: "" },
-  { title: "One and Only", streams: 27440804, daily: 11180, spotify_url: "" },
-  { title: "Billy Poco", streams: 21193056, daily: 6412, spotify_url: "" },
-  { title: "* Confessions", streams: 21140918, daily: 15979, spotify_url: "" },
-  { title: "Flashover", streams: 19972809, daily: 23214, spotify_url: "https://open.spotify.com/track/4uj7LoS14txqhRylMR4Fj1" },
-  { title: "Lost Island", streams: 19582186, daily: 64140, spotify_url: "https://open.spotify.com/track/53cWZA9OROeiYu1vHh4f4i" },
-  { title: "Demons", streams: 19423177, daily: 27763, spotify_url: "https://open.spotify.com/track/30oEeJE3bxNMODjscH9Scl" },
-  { title: "Echoes", streams: 19388847, daily: 37174, spotify_url: "https://open.spotify.com/track/5psV1mOAaT9WuORcjaMgQv" },
-  { title: "Shine On Me", streams: 18525719, daily: 29248, spotify_url: "https://open.spotify.com/track/0sz9rW8qpeRm5AAUYEIZWL" },
-  { title: "Stealer", streams: 18299698, daily: 63763, spotify_url: "https://open.spotify.com/track/5EK13IYnr1NKdWDZhLDlBl" },
-  { title: "Mortal", streams: 17693612, daily: 9595, spotify_url: "" },
-  { title: "Intro : Walk the Line", streams: 17292382, daily: 3406, spotify_url: "" },
-  { title: "Intro : The Invitation", streams: 17005330, daily: 3612, spotify_url: "" },
-  { title: "Sleep Tight", streams: 16439086, daily: 58633, spotify_url: "https://open.spotify.com/track/55Uw5HbVMjQg4iFJdKuOUC" },
-  { title: "Home", streams: 16065792, daily: 13111, spotify_url: "" },
-  { title: "Interlude : Question", streams: 15912900, daily: 3514, spotify_url: "" },
-  { title: "Intro : Whiteout", streams: 15278153, daily: 3478, spotify_url: "" },
-  { title: "WALK THE LINE", streams: 15050654, daily: 4280, spotify_url: "" },
-  { title: "Given-Taken - Japanese Ver.", streams: 14215594, daily: 3228, spotify_url: "" },
-  { title: "Outro : Cross the Line", streams: 13816332, daily: 2930, spotify_url: "" },
-  { title: "Loose (Korean Ver.)", streams: 13501766, daily: 17099, spotify_url: "https://open.spotify.com/track/1hZqz3w2FFdQekLLLFEa0T" },
-  { title: "Make the change", streams: 12969955, daily: 5940, spotify_url: "" },
-  { title: "Drunk-Dazed - Japanese Ver.", streams: 12779014, daily: 5181, spotify_url: "" },
-  { title: "Brought The Heat Back (Feat. Ava Max)", streams: 12504802, daily: 9449, spotify_url: "" },
-  { title: "Tamed-Dashed - Japanese Ver.", streams: 11932251, daily: 3093, spotify_url: "" },
-  { title: "Outro : The Wormhole", streams: 11472914, daily: 2403, spotify_url: "" },
-  { title: "Let Me In (20 CUBE) - Japanese Ver.", streams: 10885279, daily: 2755, spotify_url: "" },
-  { title: "Sweet Venom (feat. Bella Poarch)", streams: 10695278, daily: 3556, spotify_url: "" },
-  { title: "Bite Me - Japanese Ver.", streams: 9823912, daily: 8971, spotify_url: "" },
-  { title: "ZERO MOMENT (Sung by HEESEUNG, JAY, JAKE) (Prod. tearliner)", streams: 9301399, daily: 3532, spotify_url: "" },
-  { title: "Outro : Day 2", streams: 8997597, daily: 2286, spotify_url: "" },
-  { title: "Keep Swimmin' Through", streams: 8082086, daily: 3088, spotify_url: "" },
-  { title: "Sweet Venom (Seeb Remix)", streams: 8010928, daily: 3007, spotify_url: "" },
-  { title: "A Kind Of Magic - Coke Studio Session", streams: 7483387, daily: 2451, spotify_url: "" },
-  { title: "Knife (SUNGHOON Ver.)", streams: 7112914, daily: 22727, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.)", streams: 6614717, daily: 6387, spotify_url: "" },
-  { title: "Future Perfect (Pass the MIC) - Japanese Ver.", streams: 5406319, daily: 1895, spotify_url: "" },
-  { title: "Bills - Japanese Ver.", streams: 5340911, daily: 2157, spotify_url: "" },
-  { title: "No Doubt - Japanese Ver. / Digital Only", streams: 5269277, daily: 5835, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) - Japanese Ver. / Digital Only", streams: 4125144, daily: 5480, spotify_url: "" },
-  { title: "One and Only - PIKA PIKA Remix", streams: 3990198, daily: 5053, spotify_url: "" },
-  { title: "Blessed-Cursed - Japanese Ver.", streams: 3806687, daily: 1563, spotify_url: "" },
-  { title: "Knife (English Ver.)", streams: 3711319, daily: 12772, spotify_url: "" },
-  { title: "Bad Desire (With or Without You) - Japanese Ver.", streams: 3456927, daily: 7108, spotify_url: "" },
-  { title: "도망자들 (Los Fugitivos)", streams: 2648339, daily: 7592, spotify_url: "https://open.spotify.com/track/40xgp3gReYzOtWdtsuzAhl" },
-  { title: "사건의 발단 (El Inicio del Caso)", streams: 2611472, daily: 7734, spotify_url: "https://open.spotify.com/track/4Sw8Gb9uCFHgRGZjSvNDKz" },
-  { title: "사건의 너머 (Más Allá del Caso)", streams: 2543897, daily: 7684, spotify_url: "https://open.spotify.com/track/79GygScCfCwPTGj3bIggLN" },
-  { title: "우리가 찾던 목소리 (La Voz que Buscábamos)", streams: 2480510, daily: 7221, spotify_url: "https://open.spotify.com/track/4kUACOhtIz6muVF2wWgsdf" },
-  { title: "Knife (HEESEUNG Ver.)", streams: 2387863, daily: 7560, spotify_url: "" },
-  { title: "One In A Billion (Japanese Ver.)", streams: 2370226, daily: 11605, spotify_url: "https://open.spotify.com/track/7MvYfssQOnBxMd0T5T8WgG" },
-  { title: "* Confessions - Spring Break Edit", streams: 2290488, daily: 4870, spotify_url: "" },
-  { title: "Keep Swimmin' Through x Baby Shark (Dance Remix)", streams: 2157851, daily: 1014, spotify_url: "" },
-  { title: "목격자 (Testigo)", streams: 1912369, daily: 5534, spotify_url: "https://open.spotify.com/track/3nzJHcaEMXUUAP7A0YGbJ0" },
-  { title: "Knife (SUNOO Ver.)", streams: 1900306, daily: 8024, spotify_url: "" },
-  { title: "Hey Tayo (Tayo Opening Theme Song) (Inst.)", streams: 1766161, daily: 511, spotify_url: "" },
-  { title: "Knife (NI-KI Ver.)", streams: 1525341, daily: 5166, spotify_url: "" },
-  { title: "Knife (JAY Ver.)", streams: 1462902, daily: 5194, spotify_url: "" },
-  { title: "Knife (JAKE Ver.)", streams: 1445965, daily: 4741, spotify_url: "" },
-  { title: "Knife (JUNGWON Ver.)", streams: 1403232, daily: 5993, spotify_url: "" },
-  { title: "I Need The Light - Instrumental", streams: 1290588, daily: 512, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.) (Drive Night Remix)", streams: 1189358, daily: 687, spotify_url: "" },
-  { title: "Billy Poco (Inst.)", streams: 1049681, daily: 240, spotify_url: "" },
-  { title: "The Beginning", streams: 918970, daily: 2564, spotify_url: "" },
-  { title: "* Confessions - Run Club Remix", streams: 891888, daily: 4461, spotify_url: "" },
-  { title: "The Beyond", streams: 868703, daily: 2577, spotify_url: "" },
-  { title: "What Makes You Beautiful - Instrumental", streams: 857704, daily: 378, spotify_url: "" },
-  { title: "The Fugitives", streams: 836219, daily: 2188, spotify_url: "" },
-  { title: "ZERO MOMENT (Instrumental)", streams: 829348, daily: 276, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.) (Club Night Remix)", streams: 822674, daily: 393, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.) (Slowed + Reverb Ver.)", streams: 793267, daily: 807, spotify_url: "" },
-  { title: "The Voice", streams: 741607, daily: 2068, spotify_url: "" },
-  { title: "Voice Note (HEESEUNG Ver.)", streams: 739718, daily: 2246, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.) (California Night Remix)", streams: 671861, daily: 538, spotify_url: "" },
-  { title: "Witnesses", streams: 626200, daily: 1779, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (English Ver.) (Sped Up Ver.)", streams: 528611, daily: 387, spotify_url: "" },
-  { title: "Voice Note (SUNOO Ver.)", streams: 491903, daily: 2834, spotify_url: "" },
-  { title: "Demons - Instrumental", streams: 421174, daily: 378, spotify_url: "" },
-  { title: "Voice Note (NI-KI Ver.)", streams: 347093, daily: 803, spotify_url: "" },
-  { title: "Voice Note (JUNGWON Ver.)", streams: 340275, daily: 1688, spotify_url: "" },
-  { title: "Voice Note (JAKE Ver.)", streams: 311830, daily: 774, spotify_url: "" },
-  { title: "Voice Note (SUNGHOON Ver.)", streams: 300530, daily: 863, spotify_url: "" },
-  { title: "* It's My Ocean x Baby Shark (Finale) Mashup", streams: 276980, daily: 144, spotify_url: "" },
-  { title: "Voice Note (JAY Ver.)", streams: 253892, daily: 824, spotify_url: "" },
-  { title: "* Baby Shark (Finale)", streams: 237329, daily: 115, spotify_url: "" },
-  { title: "逃亡者たち (Fugitivos - Jap.)", streams: 175978, daily: 381, spotify_url: "" },
-  { title: "事件の発端 (El Inicio del Caso - Jap.)", streams: 169567, daily: 411, spotify_url: "" },
-  { title: "探していた声 (La Voz que Buscábamos - Jap.)", streams: 133019, daily: 675, spotify_url: "" },
-  { title: "事件的彼端 (Más Allá del Caso - Chino)", streams: 127829, daily: 298, spotify_url: "" },
-  { title: "事件の彼方 (Más Allá del Caso - Jap.)", streams: 112217, daily: 346, spotify_url: "" },
-  { title: "事件的起源 (El Inicio del Caso - Chino)", streams: 106457, daily: 220, spotify_url: "" },
-]; // { id, title, total_streams, daily_streams }
-
-async function preloadDiscography() {
-  const statusEl = document.getElementById('preload-status');
-  statusEl.textContent = '⏳ Cargando discografía...';
-  const { data: existing } = await sb.from('spotify_songs').select('title');
-  const existingTitles = (existing || []).map(s => s.title.toLowerCase().trim());
-  const { data: sortData } = await sb.from('spotify_songs').select('sort_order').order('sort_order', { ascending: false }).limit(1);
-  let maxSort = (sortData && sortData[0]) ? sortData[0].sort_order : 0;
-  const today = new Date().toISOString().slice(0, 10);
-  let inserted = 0, skipped = 0, errors = 0;
-  for (const song of ENHYPEN_DISCOGRAPHY) {
-    if (existingTitles.includes(song.title.toLowerCase().trim())) { skipped++; continue; }
-    const { data: ins, error } = await sb.from('spotify_songs').insert({
-      title: song.title, total_streams: song.streams || 0, daily_streams: song.daily || 0,
-      spotify_url: song.spotify_url || null, sort_order: ++maxSort
-    }).select('id').single();
-    if (!error && ins) {
-      await sb.from('spotify_snapshots').upsert({ song_id: ins.id, snapshot_date: today, total_streams: song.streams || 0 }, { onConflict: 'song_id,snapshot_date' });
-      inserted++;
-    } else { errors++; }
-  }
-  statusEl.textContent = `✅ ${inserted} canciones cargadas · ${skipped} ya existían${errors ? ` · ${errors} errores` : ''}`;
-  showToast(`Discografía cargada: ${inserted} canciones ✅`);
-  await loadAdminSpotifySongs();
-  await loadSpotifySongsPublic();
-}
-
-// ========== PASTE TABLE ==========
-let pasteParsed = [];
-
-function processPaste() {
-  const text = document.getElementById('paste-area').value.trim();
-  const statusEl = document.getElementById('paste-status');
-  if (!text) { statusEl.textContent = '⚠️ Pega el contenido primero.'; return; }
-
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-  pasteParsed = [];
-
-  for (const line of lines) {
-    let cols;
-    if (line.includes('|')) {
-      cols = line.split('|').map(c => c.trim()).filter(c => c);
-    } else if (line.includes('\t')) {
-      cols = line.split('\t').map(c => c.trim());
-    } else {
-      cols = line.split(/\s{2,}/).map(c => c.trim());
-    }
-    if (cols.length < 2) continue;
-
-    const title = cols[0].replace(/^\d+\.?\s*/, '').trim();
-    if (!title || title === '---' || title === '-' ||
-        title.toLowerCase().includes('song title') ||
-        title.toLowerCase().includes('title') ||
-        title.toLowerCase() === 'song') continue;
-
-    // Parse numbers — remove all non-digit chars except nothing
-    const streamsRaw = (cols[1] || '').replace(/[^0-9]/g, '');
-    const dailyRaw   = (cols[2] || '').replace(/[^0-9]/g, '');
-    const streams = parseInt(streamsRaw) || 0;
-    const daily   = parseInt(dailyRaw)   || 0;
-
-    if (title && streams > 0) pasteParsed.push({ title, streams, daily });
-  }
-
-  if (!pasteParsed.length) {
-    statusEl.textContent = '⚠️ No se pudo parsear. Formato esperado: Canción | Streams | Daily';
-    document.getElementById('paste-preview').style.display = 'none';
-    document.getElementById('paste-save-btn').style.display = 'none';
-    return;
-  }
-  // Show save button immediately — don't wait for preview
-  document.getElementById('paste-save-btn').style.display = 'inline-flex';
-  statusEl.textContent = `✅ ${pasteParsed.length} canciones listas — presiona 💾 Guardar`;
-  renderPastePreview(); // preview is optional, runs in background
-}
-
-function clearPaste() {
-  document.getElementById('paste-area').value = '';
-  document.getElementById('paste-preview').style.display = 'none';
-  document.getElementById('paste-save-btn').style.display = 'none';
-  document.getElementById('paste-status').textContent = '';
-  document.getElementById('paste-save-status').textContent = '';
-  pasteParsed = [];
-}
-
-async function renderPastePreview() {
-  const { data: dbSongs } = await sb.from('spotify_songs').select('id,title,total_streams');
-  const noMatch = pasteParsed.filter(r => !dbSongs?.find(s => titlesMatch(s.title, r.title))).length;
-  document.getElementById('paste-preview-label').textContent = `${pasteParsed.length} canciones · ${pasteParsed.length - noMatch} actualizarán · ${noMatch} serán nuevas`;
-  document.getElementById('paste-preview-body').innerHTML = pasteParsed.map(r => {
-    const match = dbSongs?.find(s => titlesMatch(s.title, r.title));
-    const st = match
-      ? `<span style="color:#1db954;font-size:0.72rem">✅ match</span>`
-      : `<span style="color:var(--primary-red);font-size:0.72rem">⚠ nuevo</span>`;
-    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-      <td style="padding:0.4rem 0.7rem;font-size:0.77rem;color:var(--text-main)">${escapeHtml(r.title)}</td>
-      <td style="padding:0.4rem 0.7rem;font-family:'Orbitron',monospace;font-size:0.72rem;color:#1db954;text-align:right">${fmtCompact(r.streams)}</td>
-      <td style="padding:0.4rem 0.7rem;font-family:'Orbitron',monospace;font-size:0.72rem;color:var(--text-dim);text-align:right">${r.daily ? '+' + fmtCompact(r.daily) : '—'}</td>
-      <td style="padding:0.4rem 0.7rem;text-align:center">${st}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('paste-preview').style.display = 'block';
-}
-
-async function savePasteData() {
-  if (!pasteParsed.length) return;
-  const statusEl = document.getElementById('paste-save-status');
-  const btn = document.getElementById('paste-save-btn');
-  btn.disabled = true; btn.textContent = '⏳ Guardando...';
-  statusEl.textContent = 'Cargando lista...';
-
-  // 1. Load all DB songs once
-  const { data: dbSongs, error: dbErr } = await sb.from('spotify_songs').select('id,title,sort_order');
-  if (dbErr) {
-    statusEl.textContent = '❌ ' + dbErr.message;
-    btn.disabled = false; btn.textContent = '💾 Guardar en Supabase';
-    return;
-  }
-
-  let maxSort = dbSongs?.reduce((m, s) => Math.max(m, s.sort_order || 0), 0) || 0;
-
-  // 2. Match all songs in memory
-  const toUpdate = [];
-  const toInsert = [];
-  for (const r of pasteParsed) {
-    const match = dbSongs?.find(s => s.title.toLowerCase().trim() === r.title.toLowerCase().trim())
-      || dbSongs?.find(s => titlesMatch(s.title, r.title));
-    if (match) toUpdate.push({ id: match.id, total_streams: r.streams, daily_streams: r.daily });
-    else toInsert.push({ title: r.title, total_streams: r.streams, daily_streams: r.daily, spotify_url: null, sort_order: ++maxSort });
-  }
-
-  statusEl.textContent = `Guardando ${toUpdate.length} canciones en lotes...`;
-
-  // 3. Batch upsert updates in chunks of 50 parallel
-  let updated = 0, errors = 0;
-  const chunkSize = 50;
-  for (let i = 0; i < toUpdate.length; i += chunkSize) {
-    const chunk = toUpdate.slice(i, i + chunkSize);
-    const results = await Promise.all(
-      chunk.map(r => sb.from('spotify_songs').update({ total_streams: r.total_streams, daily_streams: r.daily_streams }).eq('id', r.id))
-    );
-    results.forEach(({ error }) => error ? errors++ : updated++);
-    statusEl.textContent = `Guardando... ${Math.min(i + chunkSize, toUpdate.length)}/${toUpdate.length}`;
-  }
-
-  // 4. Batch insert new songs
-  let inserted = 0;
-  if (toInsert.length) {
-    const { data: ins, error } = await sb.from('spotify_songs').insert(toInsert).select('id');
-    if (!error) inserted = ins?.length || toInsert.length;
-    else errors += toInsert.length;
-  }
-
-  const msg = `✅ ${updated} actualizadas · ${inserted} nuevas${errors ? ` · ${errors} errores` : ''}`;
-  statusEl.textContent = msg;
-  showToast(msg);
-  btn.disabled = false; btn.textContent = '💾 Guardar en Supabase';
-  await loadAdminSpotifySongs();
-  await loadSpotifySongsPublic();
-}
-
-async function deleteAllSongs() {
-  if (!confirm('⚠️ ¿Eliminar TODAS las canciones? Esto no se puede deshacer.')) return;
-  if (!confirm('¿Segura? Se borrarán canciones y sus snapshots históricos.')) return;
-  const statusEl = document.getElementById('paste-status');
-  statusEl.textContent = '⏳ Eliminando...';
-  const { data } = await sb.from('spotify_songs').select('id');
-  if (data && data.length) {
-    const ids = data.map(s => s.id);
-    await sb.from('spotify_snapshots').delete().in('song_id', ids);
-    await sb.from('spotify_songs').delete().in('id', ids);
-  }
-  pasteParsed = [];
-  statusEl.textContent = '🗑️ Todas las canciones eliminadas.';
-  document.getElementById('paste-preview').style.display = 'none';
-  document.getElementById('paste-area').value = '';
-  document.getElementById('paste-status').textContent = '';
-  showToast('Canciones eliminadas');
-  await loadAdminSpotifySongs(); await loadSpotifySongsPublic();
-}
-
-// ========== ALBUMS PASTE TABLE ==========
-let pasteAlbumsParsed = [];
-
-function processAlbumsPaste() {
-  const text = document.getElementById('paste-albums-area').value.trim();
-  const statusEl = document.getElementById('paste-albums-status');
-  if (!text) { statusEl.textContent = '⚠️ Pega el contenido primero.'; return; }
-
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-  pasteAlbumsParsed = [];
-
-  for (const line of lines) {
-    let cols;
-    if (line.includes('|')) {
-      cols = line.split('|').map(c => c.trim()).filter(c => c);
-    } else if (line.includes('\t')) {
-      cols = line.split('\t').map(c => c.trim());
-    } else if (line.includes(';')) {
-      cols = line.split(';').map(c => c.trim());
-    } else {
-      cols = line.split(',').map(c => c.trim());
-    }
-    if (cols.length < 2) continue;
-    const title = cols[0];
-    if (!title || title === '---' || title.toLowerCase().includes('album') || title === '-') continue;
-    const streamsRaw = (cols[1] || '0').replace(/,/g, '').replace(/[^0-9]/g, '');
-    const dailyRaw  = (cols[2] || '0').replace(/,/g, '').replace(/[^0-9]/g, '');
-    const streams = parseInt(streamsRaw) || 0;
-    const daily   = parseInt(dailyRaw)   || 0;
-    if (title && streams > 0) pasteAlbumsParsed.push({ title, streams, daily });
-  }
-
-  if (!pasteAlbumsParsed.length) {
-    statusEl.textContent = '⚠️ No se pudieron parsear álbumes. Verifica el formato.';
-    document.getElementById('paste-albums-preview').style.display = 'none';
-    return;
-  }
-  statusEl.textContent = `✅ ${pasteAlbumsParsed.length} álbumes detectados`;
-  renderAlbumsPastePreview();
-}
-
-async function renderAlbumsPastePreview() {
-  const { data: dbAlbums } = await sb.from('spotify_albums').select('id,title,total_streams');
-  const noMatch = pasteAlbumsParsed.filter(r => !dbAlbums?.find(a => titlesMatch(a.title, r.title))).length;
-  document.getElementById('paste-albums-preview-label').textContent = `${pasteAlbumsParsed.length} álbumes · ${pasteAlbumsParsed.length - noMatch} actualizarán · ${noMatch} serán nuevos`;
-  document.getElementById('paste-albums-preview-body').innerHTML = pasteAlbumsParsed.map(r => {
-    const match = dbAlbums?.find(a => titlesMatch(a.title, r.title));
-    const st = match
-      ? `<span style="color:#1db954;font-size:0.72rem">✅ match</span>`
-      : `<span style="color:var(--primary-red);font-size:0.72rem">⚠ nuevo</span>`;
-    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
-      <td style="padding:0.4rem 0.7rem;font-size:0.77rem;color:var(--text-main)">${escapeHtml(r.title)}</td>
-      <td style="padding:0.4rem 0.7rem;font-family:'Orbitron',monospace;font-size:0.72rem;color:#1db954;text-align:right">${fmtCompact(r.streams)}</td>
-      <td style="padding:0.4rem 0.7rem;font-family:'Orbitron',monospace;font-size:0.72rem;color:var(--text-dim);text-align:right">${r.daily ? '+' + fmtCompact(r.daily) : '—'}</td>
-      <td style="padding:0.4rem 0.7rem;text-align:center">${st}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('paste-albums-preview').style.display = 'block';
-}
-
-async function saveAlbumsPasteData() {
-  if (!pasteAlbumsParsed.length) return;
-  const statusEl = document.getElementById('paste-albums-save-status');
-  statusEl.textContent = '⏳ Guardando...';
-  const { data: dbAlbums } = await sb.from('spotify_albums').select('id,title,total_streams');
-  const today = new Date().toISOString().slice(0, 10);
-  let updated = 0, inserted = 0, errors = 0;
-
-  for (const r of pasteAlbumsParsed) {
-    const match = dbAlbums?.find(a => titlesMatch(a.title, r.title));
-    if (match) {
-      const { error } = await sb.from('spotify_albums').update({ total_streams: r.streams, daily_streams: r.daily }).eq('id', match.id);
-      if (!error) { await sb.from('spotify_album_snapshots').upsert({ album_id: match.id, snapshot_date: today, total_streams: r.streams }, { onConflict: 'album_id,snapshot_date' }); updated++; }
-      else errors++;
-    } else {
-      const { error } = await sb.from('spotify_albums').insert({ title: r.title, total_streams: r.streams, daily_streams: r.daily, spotify_url: null });
-      if (!error) inserted++; else errors++;
-    }
-  }
-
-  const msg = `✅ ${updated} actualizados · ${inserted} nuevos${errors ? ` · ${errors} errores` : ''}`;
-  statusEl.textContent = msg; showToast(msg);
-  await loadAdminAlbums(); await loadSpotifyAlbumsPublic();
-}
-
-async function deleteAllAlbums() {
-  if (!confirm('⚠️ ¿Eliminar TODOS los álbumes? Esto no se puede deshacer.')) return;
-  if (!confirm('¿Segura? Se borrarán álbumes y sus snapshots.')) return;
-  const statusEl = document.getElementById('paste-albums-status');
-  statusEl.textContent = '⏳ Eliminando...';
-  const { data } = await sb.from('spotify_albums').select('id');
-  if (data && data.length) {
-    const ids = data.map(a => a.id);
-    await sb.from('spotify_album_snapshots').delete().in('album_id', ids);
-    await sb.from('spotify_albums').delete().in('id', ids);
-  }
-  pasteAlbumsParsed = [];
-  statusEl.textContent = '🗑️ Todos los álbumes eliminados.';
-  document.getElementById('paste-albums-preview').style.display = 'none';
-  document.getElementById('paste-albums-area').value = '';
-  showToast('Álbumes eliminados');
-  await loadAdminAlbums(); await loadSpotifyAlbumsPublic();
-}
+const EVAN_DISCOGRAPHY = [
+  { title: "Ride or Die", streams: 0, daily: 0, spotify_url: "https://open.spotify.com/intl-es/track/2KQIWXg1oWdkbE04CqcE4E" },
+  { title: "Overflow", streams: 0, daily: 0, spotify_url: "" },
+];
 
 // ========== ALBUMS ==========
-const ENHYPEN_ALBUMS = [
-  { title: "DIMENSION : ANSWER", year: 2022, streams: 1139963107, daily: 357608, spotify_url: "https://open.spotify.com/album/6BY9EGTM7HNkNIDAuCVBKY" },
-  { title: "BORDER : CARNIVAL", year: 2021, streams: 1089017295, daily: 395872, spotify_url: "https://open.spotify.com/album/4wSHsVShwB7xW58d5rthlV" },
-  { title: "ROMANCE : UNTOLD -daydream-", year: 2024, streams: 985473967, daily: 984082, spotify_url: "https://open.spotify.com/album/5IZPD1GFQqkiJNXVNXuF9t" },
-  { title: "DARK BLOOD", year: 2023, streams: 877765199, daily: 491569, spotify_url: "https://open.spotify.com/album/4i7Sl4jRNAx8uTb9yEFDq9" },
-  { title: "ROMANCE : UNTOLD", year: 2024, streams: 767029266, daily: 772727, spotify_url: "https://open.spotify.com/album/0BIULTWShHq1SnMMTDcmPT" },
-  { title: "DIMENSION : DILEMMA", year: 2021, streams: 608570678, daily: 213242, spotify_url: "https://open.spotify.com/album/7iVp3DfqUeUhWxrAkOVcYS" },
-  { title: "BORDER : DAY ONE", year: 2020, streams: 563075790, daily: 171513, spotify_url: "https://open.spotify.com/album/5sHbKmq5mMJEUuFPRqEw1s" },
-  { title: "MANIFESTO : DAY 1", year: 2022, streams: 541491718, daily: 213983, spotify_url: "https://open.spotify.com/album/2YiEt2KqMZrJXS7rDFBvFv" },
-  { title: "SADAME", year: 2023, streams: 520511955, daily: 146413, spotify_url: "" },
-  { title: "ORANGE BLOOD", year: 2023, streams: 422610000, daily: 232160, spotify_url: "https://open.spotify.com/album/7FRdLPPELnVWqGmGdVH2ND" },
-  { title: "DESIRE : UNLEASH", year: 2025, streams: 402580367, daily: 524978, spotify_url: "https://open.spotify.com/album/3y1SBqIAFMSiElxM7VkXAq" },
-  { title: "DARK MOON SPECIAL ALBUM", year: 2023, streams: 394491457, daily: 320796, spotify_url: "" },
-  { title: "THE SIN : VANISH (SUNGHOON Ver.)", year: 2026, streams: 196843560, daily: 740037, spotify_url: "" },
-  { title: "THE SIN : VANISH", year: 2026, streams: 193935458, daily: 726353, spotify_url: "" },
-  { title: "THE SIN : VANISH (HEESEUNG Ver.)", year: 2026, streams: 192571481, daily: 725229, spotify_url: "" },
-  { title: "THE SIN : VANISH (SUNOO Ver.)", year: 2026, streams: 191835057, daily: 725623, spotify_url: "" },
-  { title: "THE SIN : VANISH (NI-KI Ver.)", year: 2026, streams: 191320171, daily: 722156, spotify_url: "" },
-  { title: "THE SIN : VANISH (JAKE Ver.)", year: 2026, streams: 191205986, daily: 721273, spotify_url: "" },
-  { title: "THE SIN : VANISH (JUNGWON Ver.)", year: 2026, streams: 191189532, daily: 722462, spotify_url: "" },
-  { title: "THE SIN : VANISH (JAY Ver.)", year: 2026, streams: 191164482, daily: 721656, spotify_url: "" },
-  { title: "THE SIN : VANISH (English Ver.)", year: 2026, streams: 185755159, daily: 702359, spotify_url: "" },
-  { title: "THE SIN : VANISH (Japanese Ver.)", year: 2026, streams: 182439810, daily: 693374, spotify_url: "" },
-  { title: "THE SIN : VANISH (Chinese Ver.)", year: 2026, streams: 182273771, daily: 692097, spotify_url: "" },
-  { title: "定め", year: 2023, streams: 139993132, daily: 44202, spotify_url: "" },
-  { title: "XO (Only If You Say Yes) (Remixes)", year: 2024, streams: 10611289, daily: 9910, spotify_url: "" },
+const EVAN_ALBUMS = [
+  { title: "Death of Me", year: 2026, streams: 0, daily: 0, spotify_url: "" },
 ];
 
 async function loadSpotifyAlbumsPublic() {
@@ -2410,7 +1950,7 @@ async function preloadAlbums() {
   status.textContent = '⏳ Cargando...';
   const { data: existing } = await sb.from('spotify_albums').select('title');
   const existingTitles = new Set((existing || []).map(a => a.title.toLowerCase()));
-  const toInsert = ENHYPEN_ALBUMS.filter(a => !existingTitles.has(a.title.toLowerCase()));
+  const toInsert = EVAN_ALBUMS.filter(a => !existingTitles.has(a.title.toLowerCase()));
   if (toInsert.length === 0) { status.textContent = '✅ Todos los álbumes ya están cargados.'; return; }
   let added = 0;
   const today = new Date().toISOString().slice(0,10);
@@ -2452,7 +1992,7 @@ async function deleteAlbum(id) {
 
 // ========== YOUTUBE API (todo tu código original, sin modificaciones) ==========
 const YT_API_KEY    = 'AIzaSyBIv_PcUf_kr3fmMFgcxKucOOGCTSJPv4U';
-const YT_CHANNEL_ID = ''; // EVAN no tiene canal propio aún. Se actualizará cuando debute.
+const YT_CHANNEL_ID = 'UCZ2HxqOVq5Hm9jjgWxCBweQ'; // @h_evva_n
 const YT_VIDEO_IDS = [
   { id: "BXwL-cBVXDQ", title: "EVAN (에반) 'Overflow' Lyric Video | 전하지 못할 네게 이 편지를 써봐" },
   { id: "CsGENgLpyaw", title: "EVAN (에반) 'Ride or Die' Official MV" },
@@ -2460,7 +2000,17 @@ const YT_VIDEO_IDS = [
   { id: "LIEOXiEAq5E", title: "EVAN (에반) Ride or Die Official MV Teaser" },
   { id: "3SHd1xhjI9s", title: "EVAN (에반) 'Overflow' [LIVE]" },
   { id: "sS9XGAFoRM0", title: "EVAN (에반) 'Ride or Die' MV Shoot Sketch | Archiv:E" },
-  { id: "h-5mI2K9jfU", title: "EVAN (에반) 'Ride or Die' Dance Practice | Stag:E" }
+  { id: "h-5mI2K9jfU", title: "EVAN (에반) 'Ride or Die' Dance Practice | Stag:E" },
+  { id: "8tTzR8oViEg", title: "EVAN (에반) 친한친구 방송반 DJ 비하인드 | Archiv:E" },
+  { id: "TruS_QursBw", title: "에반 오늘 뭐 하지? 에반정식과 숨바꼭질 | EVAN (에반) | Sid:E" },
+  { id: "uDCONRmyjds", title: "[Cover] EVAN (에반) - 灰色と青 (Kenshi Yonezu, Masaki Suda) | TOKYO Tap:E" },
+  { id: "0U6sXMUYtRM", title: "작업실을 꾸며보는 건 처음입니다 | EVAN (에반) | Sid:E" },
+  { id: "V7dCFEJ1xrc", title: "EVAN (에반) GLOBAL OFFICIAL FANCLUB EVER MEMBERSHIP Welcome Message" },
+  { id: "TB1bu9TxJzQ", title: "공연을 위해 한강에서 부산까지 | EVAN (에반) | Sid:E log" },
+  { id: "yEV-DNKmwuY", title: "EVAN (에반) 'Ride or Die' 챌린지 비하인드 | Archiv:E" },
+  { id: "eyCjCFY_nlQ", title: "EVAN (에반) 'RIDE OR DIE' 음악방송 비하인드 | Archiv:E" },
+  { id: "bHELiN_9pCY", title: "'RIDE OR DIE' 활동을 마쳤습니다 | EVAN (에반) | Sid:E" },
+  { id: "Sy28D2DXEdQ", title: "도쿄 미니 투어 재밌다 ㅎㅎ (+댄스 워크숍) | EVAN (에반) | Sid:E log" }
 ]
 let ytCache = { channel: null, videos: null, snapshots: null, fetchedAt: 0 };
 const YT_CACHE_MS = 60 * 60 * 1000;
@@ -2980,7 +2530,7 @@ function fmtLong(n) {
 
 function renderArtistChart(listeners, followers, streams, streamsDaily) {
   function statCard(label, value, liveLabel, daily) {
-    // For solo debut artist: only show listeners/followers if set manually (not huge ENHYPEN-scale values)
+    // Solo show listeners/followers if set manually
     // For solo debut: show — until admin manually sets values in this project's DB
     // All values start as null until Kworb scrapes real EVAN data
     const validValue = value && value > 0;
@@ -3024,7 +2574,7 @@ async function loadKworbArtist(forceRefresh = false) {
 
   // 1. Listeners, Followers, Total Streams y Today desde Supabase (manual)
   let listeners = null, followers = null, manualStreams = null, manualToday = null;
-  // Threshold: if streams > 2B it's leftover ENHYPEN data, ignore it
+  // Threshold: ignore clearly invalid data
   const MAX_EVAN_STREAMS = 2_000_000_000;
   try {
     const { data: cfg } = await sb.from('site_config').select('key,value')
@@ -3049,8 +2599,8 @@ async function loadKworbArtist(forceRefresh = false) {
   } catch(e) { console.warn('Supabase artist config error:', e); }
 
   // 2. Total streams: manual si está definido, si no calcular desde discografía local
-  const calcStreams = ENHYPEN_DISCOGRAPHY.reduce((acc, s) => acc + (s.streams || 0), 0);
-  const calcDaily   = ENHYPEN_DISCOGRAPHY.reduce((acc, s) => acc + (s.daily  || 0), 0);
+  const calcStreams = EVAN_DISCOGRAPHY.reduce((acc, s) => acc + (s.streams || 0), 0);
+  const calcDaily   = EVAN_DISCOGRAPHY.reduce((acc, s) => acc + (s.daily  || 0), 0);
   const totalStreams = manualStreams || calcStreams;
   const totalDaily   = manualToday  || calcDaily;
 
